@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { auth } from '../firebaseConfig'
+import { auth } from '../../firebaseConfig'
 import { signOut } from 'firebase/auth'
 import { useNavigation } from '@react-navigation/core'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import SCREENS from '../screens'
 
 
 const HomeScreen = () => {
@@ -13,7 +14,7 @@ const HomeScreen = () => {
     const handleSignout = () => {
         signOut(auth)
         .then(() => {
-            navigation.replace("Login")
+            navigation.navigate(SCREENS.LOGIN)
         })
         .catch(error => alert(error.message))
     }

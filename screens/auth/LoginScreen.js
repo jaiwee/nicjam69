@@ -1,25 +1,27 @@
 import React, { Component, useEffect, useState } from 'react'
-import { ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { auth } from '../firebaseConfig.js'
+import { auth } from '../../firebaseConfig.js'
 import { useNavigation } from '@react-navigation/native';
+import SCREENS from '../screens.js';
 
-const image = require('../images/background.png');
+const image = require('../../images/background.png');
 
 const LoginScreen = () => {
+    // const {navigation} = props;
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [home, setHome] = useState('')
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                navigation.replace("Home")
+                navigation.replace(SCREENS.HOME)
             }
         })
         return unsubscribe;
@@ -34,12 +36,14 @@ const LoginScreen = () => {
         .catch(error => alert(error.message))
     }
 
-    const handleLogin = () => {
+    const handleLogin = props => {
+        
         signInWithEmailAndPassword(auth, email, password)
         .then(userCredentials => {
             const user = userCredentials.user;
             console.log('Logged in with', user.email)
             setHome(true)
+            navigation.navigate('HOME')
             // setUser(userCredentials)
         })
         .catch(error => alert(error.message))
@@ -52,6 +56,29 @@ const LoginScreen = () => {
                 behaviour = "padding" 
             >
                 <ImageBackground source={image} style={styles.image} resizeMode='cover'>
+
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                        navigation.navigate(SCREENS.HOME);
+                        }}>
+                        <View
+                        style={{
+                            height: 50,
+                            backgroundColor: 'black',
+                            marginTop: 20,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                        <Text
+                            style={{
+                            color: 'white',
+                            fontSize: 16,
+                            }}>
+                            Sign In
+                        </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
                     <View style = {styles.welcomeTextContainer}>
                         <Text style = {styles.welcomeText}>
                             BusiNUS
@@ -80,7 +107,9 @@ const LoginScreen = () => {
 
                     <View style = {styles.buttonContainer}>
                         <TouchableOpacity
-                            onPress = {handleLogin}
+                            onPress={() => {
+                                handleLogin();
+                            }}
                             style = {[styles.button]}
                         >
                             <Text
@@ -91,7 +120,10 @@ const LoginScreen = () => {
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress = {handleSignup}
+                            onPress={() => {
+                                handleSignup();
+                                
+                               }}
                             style = {[styles.button, styles.buttonOutline]}
                         >
                             <Text
@@ -108,7 +140,7 @@ const LoginScreen = () => {
     // }
 }
 
-export default LoginScreen
+export default LoginScreen;
 
 const styles = StyleSheet.create({
     container: {
