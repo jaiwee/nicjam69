@@ -10,7 +10,10 @@ import SCREENS from '../screens/screens.js';
 import LoginScreen from '../screens/auth/LoginScreen';
 // import SignupScreen from '../screens/auth/SignupScreen';
 import HomeScreen from '../screens/tabs/HomeScreen';
+import SearchScreen from '../screens/tabs/SearchScreen';
+import PostScreen from '../screens/tabs/PostScreen';
 import IMAGES from '../images/index.js';
+import DateScreen from '../screens/tabs/DateScreen.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +52,63 @@ const TabNavigator = () => {
                 tabBarIcon: ({focused}) => (
                     <Image
                     source={IMAGES.HOME}
+                    style={{
+                        height: 30,
+                        width: 30,
+                        tintColor: focused ? 'red' : 'black',
+                    }}
+                    />
+                ),
+                tabBarActiveTintColor: 'red',
+                tabBarInactiveTintColor: 'black',
+                }}
+            />
+            <Tab.Screen
+                name={SCREENS.SEARCH}
+                component={SearchScreen}
+                options={{
+                title: 'Search',
+                tabBarIcon: ({focused}) => (
+                    <Image
+                    source={IMAGES.SEARCH}
+                    style={{
+                        height: 30,
+                        width: 30,
+                        tintColor: focused ? 'red' : 'black',
+                    }}
+                    />
+                ),
+                tabBarActiveTintColor: 'red',
+                tabBarInactiveTintColor: 'black',
+                }}
+            />
+            <Tab.Screen
+                name={SCREENS.POST}
+                component={PostScreen}
+                options={{
+                title: 'Post',
+                tabBarIcon: ({focused}) => (
+                    <Image
+                    source={IMAGES.POST}
+                    style={{
+                        height: 30,
+                        width: 30,
+                        tintColor: focused ? 'red' : 'black',
+                    }}
+                    />
+                ),
+                tabBarActiveTintColor: 'red',
+                tabBarInactiveTintColor: 'black',
+                }}
+            />
+            <Tab.Screen
+                name={SCREENS.DATE}
+                component={DateScreen}
+                options={{
+                title: 'Date',
+                tabBarIcon: ({focused}) => (
+                    <Image
+                    source={IMAGES.DATE}
                     style={{
                         height: 30,
                         width: 30,
