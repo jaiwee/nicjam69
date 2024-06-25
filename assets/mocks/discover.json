@@ -1,0 +1,14 @@
+[
+    {
+        "fullName": "jane",
+        "image": "./1.jpg"
+    },
+    {
+        "fullName": "harry",
+        "image": "./2.jpg"
+    },
+    {
+        "fullName": "tom",
+        "image": "./3.png"
+    }
+]

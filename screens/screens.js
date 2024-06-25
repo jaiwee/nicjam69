@@ -4,7 +4,8 @@ const SCREENS = {
     HOME: 'HOME',
     SEARCH: 'SEARCH',
     POST: 'POST',
-    DATE: 'DATE'
+    DATE: 'DATE',
+    SELLERPROFILE: 'SELLERPROFILE'
 }
 
 export default SCREENS;
