@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, TextInput, FlatList} from 'react-native';
+import {View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
@@ -18,10 +18,12 @@ const SearchBarComponent = ({}) => {
         const querySnapshot = await getDocs(q);
 
         querySnapshot.forEach((doc) => {
-            console.log("works")
-            console.log(doc.data());
             setSearchList(prev => [...prev, doc.data()]);
         })
+    }
+
+    const onSellerPress = ({seller}) => {
+        console.log(seller)
     }
 
   return (
@@ -34,15 +36,17 @@ const SearchBarComponent = ({}) => {
             onChangeText = {(val) => setSearch(val)}
         />
         </View>
-        <View>
+        <View style = {styles.searchResultsContainer}>
             <FlatList
                 data = {searchList}
                 key = {({item}) => item.value}
                 renderItem = { ({item}) => {
                     return (
-                        <View>
-                            <Text> {item.sellerName} </Text>
-                        </View>
+                        <TouchableOpacity 
+                            style = {styles.listItem}
+                            onPress={() => onSellerPress({ seller: item })}>
+                            <Text style = {styles.listText}> {item.sellerName} </Text>
+                        </TouchableOpacity>
                     )
                 }
 
@@ -58,12 +62,27 @@ const styles = StyleSheet.create({
         backgroundColor: '#EBE9E9',
         margin: 10,
         borderRadius: 5,
-        flexDirection: 'row'
+        flexDirection: 'row',
+    },
+    searchResultsContainer: {
+        height: 180,
     },
     inputText: {
         flex: 1,
         fontSize: 16,
         padding: 10
+    },
+    listItem: {
+        marginHorizontal:10,
+        marginVertical: 2,
+        backgroundColor: 'gray',
+        padding: 10,
+        borderRadius: 5,
+    },
+    listText: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        color: 'white'
     }
 })
 
