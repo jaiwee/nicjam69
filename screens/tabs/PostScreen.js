@@ -2,6 +2,9 @@ import {View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, 
 import React, { useState } from 'react';
 import * as ImagePicker from "expo-image-picker";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getDownloadURL, uploadBytes, ref, uploadBytesResumable} from 'firebase/storage';
+import { addDoc, collection, onSnapshot} from 'firebase/firestore';
+import { storage } from '../../firebaseConfig';
 
 const PostScreen = () => {
   const [image, setImage] = useState(null);
@@ -21,6 +24,8 @@ const PostScreen = () => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      // const uploadURL = uploadImageAsync(result.assets[0].uri);
+      // setImage(uploadURL);
       setInterval(() => {
         setLoading(false);
       }, 2000);
@@ -31,6 +36,49 @@ const PostScreen = () => {
       }, 2000);
    }
   };
+
+  const uploadImageAsync = async(uri) => {
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        resolve(xhr.response);
+      }
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+  }
+
+  //   async function uploadImage(uri, fileType) {
+  //     const response = await fetch(uri);
+  //     const blob = await response.blob();
+
+  //     const storageRef  = 
+  //   }
+
+  //   try {
+  //     const storageRef = ref(storage, `postImages/image-${Date.now()})`);
+  //     const result = await(uploadBytes(storageRef, blob));
+
+  //     result.on("state_changed",
+  //       (snapshot) => {
+  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+  //         console.log("progress is " + progress)
+  //       }
+
+
+  //     )
+
+  //     blob.close();
+  //     return await getDownloadURL(storageRef);
+  //   } catch(error) {
+  //     alert(`Error: ${error}`)
+  //   }
+  // }
 
   return (
     <View style={styles.container}>
@@ -55,7 +103,7 @@ const PostScreen = () => {
       ) : (
         <>
           {image && <Image source={{ uri: image }} style={styles.image} />}
-          <TouchableOpacity> 
+          <TouchableOpacity style = {styles.deleteButton}> 
             <Text style = {styles.deleteText}> Delete this image </Text>
           </TouchableOpacity>
         </>
@@ -79,6 +127,12 @@ const PostScreen = () => {
         />
       </View>
 
+      <View style = {styles.postContainer}>
+        <TouchableOpacity style = {styles.postButton}>
+          <Text style = {styles.postText}> Post </Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }
@@ -91,7 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#C5EAFA'
   },
   headerContainer: {
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor: 'white',
     marginHorizontal: 40,
     width: '80%',
@@ -103,7 +157,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginHorizontal: 40,
     width: '80%',
-    height: '50%',
+    height: '40%',
     flexWrap: 'wrap',
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -119,9 +173,37 @@ const styles = StyleSheet.create({
     width: 200,
     height: 200,
     overflow: "hidden",
+    marginTop: 22,
   },
   deleteText: {
-    color: 'blue'
+    color: 'white',
+    fontWeight: 'bold',
+    margin:5
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    borderRadius: 5,
+    marginVertical: 5
+  },
+  postContainer: {
+    flex: 1,
+    width: '80%',
+  },
+  postButton: {
+    borderRadius: 10,
+    backgroundColor: 'purple',
+    marginVertical: 10,
+    // width: '80%',
+    // height: '8%',
+    alignItems: 'center',
+    justifyContent: 'center'
+    
+  },
+  postText: {
+    fontWeight: 'bold',
+    color: 'white',
+    fontSize: 20,
+    marginVertical: 15
   }
 });
 
