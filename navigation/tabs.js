@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import {createStackNavigator} from '@react-navigation/stack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Image} from 'react-native';
+import Icon from '@expo/vector-icons/FontAwesome5'
 
 import SCREENS from '../screens/screens.js';
 // import IMAGES from '../images/index.js';
