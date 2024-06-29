@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         marginRight: 20
     },
     headerText: {
-        fontFamily: 'arial',
+        fontFamily: 'Helvetica Neue',
         fontWeight: 'bold',
         fontSize: 20,
         paddingLeft: 20,

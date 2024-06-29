@@ -2,11 +2,15 @@ import {View, Text, StyleSheet, TextInput, FlatList, TouchableOpacity} from 'rea
 import React, { useEffect, useState } from 'react';
 import { collection, getDocs, query } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { useNavigation } from '@react-navigation/native';
+import SCREENS from '../screens/screens';
 
 const SearchBarComponent = ({}) => {
 
     const [search, setSearch] = useState(null);
     const [searchList, setSearchList] = useState([]);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         getSearchList();
@@ -23,7 +27,8 @@ const SearchBarComponent = ({}) => {
     }
 
     const onSellerPress = ({seller}) => {
-        console.log(seller)
+        console.log(seller);
+        navigation.navigate(SCREENS.SELLERPROFILE);
     }
 
   return (

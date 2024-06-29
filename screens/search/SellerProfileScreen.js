@@ -18,7 +18,7 @@ const SellerProfileScreen = () => {
     }, [])
 
     return (
-    <ScrollView scrollEnabled = {true} style = {styles.container}>
+    <ScrollView scrollEnabled = {true} showsVerticalScrollIndicator = {false} style = {styles.container}>
         <StatusBar barStyle = {'dark-content'}/>
         {profile && <ProfileHeaderComponent config = {profile}/>}
 
@@ -30,8 +30,8 @@ const SellerProfileScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 18,
-        backgroundColor: 'white'
+        paddingHorizontal: 19,
+        backgroundColor: "#F1F3FA"
     },
 })
 

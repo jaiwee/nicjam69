@@ -1,4 +1,4 @@
-import {View, Text, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import SCREENS from '../screens';
@@ -33,7 +33,7 @@ const SearchScreen = () => {
     //   }, []);
 
     return (
-    <View>
+    <View style = {styles.container}>
         <SearchBarComponent/>
         <HappeningComponent/>
         <TrendingComponent/>
@@ -64,4 +64,9 @@ const SearchScreen = () => {
     );
 };
 
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#F1F3FA"
+    }
+})
 export default SearchScreen;

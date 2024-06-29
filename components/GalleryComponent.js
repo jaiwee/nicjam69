@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
         marginTop: 10,
         flexWrap: 'wrap',
         rowGap: 8,
-        columnGap: 10
+        columnGap: 10,
+        marginLeft: 0,
     },
     galleryCard: {
         width:( Dimensions.get('screen').width - 50) / 2,

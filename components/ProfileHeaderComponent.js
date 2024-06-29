@@ -1,4 +1,4 @@
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import React from 'react';
 import CounterComponent from './CounterComponent';
 import GalleryComponent from './GalleryComponent';
@@ -9,10 +9,14 @@ const ProfileHeaderComponent = ({config}) => {
   console.log(config.image);
   console.log(config.followers);
   console.log(config);
+
+  const handleOpenURL = (tele) => {
+    Linking.openURL(tele);
+  };
+
   return (
     <View>
         <View style = {styles.profileFollowContainer}>
-            {/* <Image source = {require('../assets/mocks/1.jpg')} style = {styles.profileImage}/> */}
             <Image source = {{uri: config.image}} style = {styles.profileImage}/>
             <View style = {styles.statsContainer}>
               {config.followers && config.followers.length > 0 && 
@@ -23,7 +27,10 @@ const ProfileHeaderComponent = ({config}) => {
         </View>
 
         <View style = {styles.infoContainer}>
-            <Text style = {styles.username}> {config.username} </Text>
+            <Text style = {styles.username}>@{config.username} </Text>
+            <Text style={{color: '#1F41BB'}}
+                  onPress={() => handleOpenURL(config.telegram)}> {config.telegram}
+            </Text>
             <Text style = {styles.desc}> {config.bio} </Text>
         </View>
 
@@ -32,7 +39,7 @@ const ProfileHeaderComponent = ({config}) => {
               <Text style = {styles.btnText}> Follow </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style = {[styles.button, {backgroundColor: '#E8F0F2'}]}>
+            <TouchableOpacity style = {[styles.button, {backgroundColor: '#E8F0F2', borderWidth: 0.5}]}>
               <Text style = {[styles.btnText, {color: 'black'}]}> Message </Text>
             </TouchableOpacity>
         </View>
@@ -51,18 +58,22 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
+    borderColor: 'black',
+    borderWidth: 0.5,
   },
   statsContainer: {
     flexDirection:'row',
-    columnGap: 20
+    columnGap: 30
   },
   infoContainer: {
     marginTop: 16,
-    rowGap: 4
+    rowGap: 4,
+    marginHorizontal: 2,
   },
   username: {
     fontSize: 16,
-    fontWeight: 500
+    fontWeight: 500,
+    fontFamily: "Helvetica-BoldOblique"
   },
   desc: {
     color: '4F8096',
