@@ -85,7 +85,7 @@ const PostScreen = () => {
 
       {/* IMAGE PICKER COMPONENT */}
       {!image ? ( 
-        <TouchableOpacity onPress={pickImage}> 
+        <TouchableOpacity style = {styles.pickImage} onPress={pickImage}> 
           {loading ? (
             <View style = {styles.one}> 
               <ActivityIndicator 
@@ -142,13 +142,15 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#C5EAFA'
+    backgroundColor: '#F1F3FA',
+    padding: 20,
   },
   headerContainer: {
     marginVertical: 10,
+    // marginTop: 20,
     backgroundColor: 'white',
     marginHorizontal: 40,
-    width: '80%',
+    width: '90%',
     paddingVertical: 10,
     paddingHorizontal: 10,
     borderRadius: 3,
@@ -156,8 +158,8 @@ const styles = StyleSheet.create({
   captionContainer: {
     backgroundColor: 'white',
     marginHorizontal: 40,
-    width: '80%',
-    height: '40%',
+    width: '90%',
+    height: '38%',
     flexWrap: 'wrap',
     paddingVertical: 10,
     paddingHorizontal: 10,
@@ -169,6 +171,15 @@ const styles = StyleSheet.create({
     height: 20,
     color: 'white'
   },
+  pickImage: {
+    width: 200,
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#d3d3d3',
+    borderRadius: 10,
+    marginTop: 10,
+  },
   image: {
     width: 200,
     height: 200,
@@ -178,7 +189,7 @@ const styles = StyleSheet.create({
   deleteText: {
     color: 'white',
     fontWeight: 'bold',
-    margin:5
+    margin: 5
   },
   deleteButton: {
     backgroundColor: 'red',
@@ -187,12 +198,13 @@ const styles = StyleSheet.create({
   },
   postContainer: {
     flex: 1,
-    width: '80%',
+    width: '90%',
   },
   postButton: {
     borderRadius: 10,
-    backgroundColor: 'purple',
+    backgroundColor: 'black',
     marginVertical: 10,
+    // marginTop: 20,
     // width: '80%',
     // height: '8%',
     alignItems: 'center',
