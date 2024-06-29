@@ -3,6 +3,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import {Image} from 'react-native';
 import Icon from '@expo/vector-icons/FontAwesome5'
+import Ionicons from '@expo/vector-icons/Ionicons.js'
+import FontAwesome from '@expo/vector-icons/FontAwesome.js'
+import EvilIcons from '@expo/vector-icons/EvilIcons.js'
+
 
 import SCREENS from '../screens/screens.js';
 // import IMAGES from '../images/index.js';
@@ -50,21 +54,29 @@ const StackNavigation = () => {
 
 const TabNavigator = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator >
             <Tab.Screen
                 name={SCREENS.HOME}
                 component={HomeScreen}
                 options={{
                 title: 'Home',
                 tabBarIcon: ({focused}) => (
-                    <Image
-                    source={IMAGES.HOME}
-                    style={{
+                    // <FontAwesome name = "home" />
+                    <Ionicons name="home" size={30} 
+                        style={{
                         height: 30,
                         width: 30,
                         tintColor: focused ? 'red' : 'black',
                     }}
                     />
+                    // <Image
+                    // source={IMAGES.HOME}
+                    // style={{
+                    //     height: 30,
+                    //     width: 30,
+                    //     tintColor: focused ? 'red' : 'black',
+                    // }}
+                    // />
                 ),
                 tabBarActiveTintColor: 'red',
                 tabBarInactiveTintColor: 'black',
@@ -76,14 +88,20 @@ const TabNavigator = () => {
                 options={{
                 title: 'Search',
                 tabBarIcon: ({focused}) => (
-                    <Image
-                    source={IMAGES.SEARCH}
-                    style={{
+                    <Ionicons name="search" size={30}
+                        style={{
                         height: 30,
                         width: 30,
                         tintColor: focused ? 'red' : 'black',
-                    }}
-                    />
+                    }}/>
+                    // <Image
+                    // source={IMAGES.SEARCH}
+                    // style={{
+                    //     height: 30,
+                    //     width: 30,
+                    //     tintColor: focused ? 'red' : 'black',
+                    // }}
+                    // />
                 ),
                 tabBarActiveTintColor: 'red',
                 tabBarInactiveTintColor: 'black',
@@ -95,14 +113,20 @@ const TabNavigator = () => {
                 options={{
                 title: 'Post',
                 tabBarIcon: ({focused}) => (
-                    <Image
-                    source={IMAGES.POST}
-                    style={{
+                    <Ionicons name="add-circle-outline" size={30}
+                        style={{
                         height: 30,
                         width: 30,
                         tintColor: focused ? 'red' : 'black',
-                    }}
-                    />
+                    }}/>
+                    // <Image
+                    // source={IMAGES.POST}
+                    // style={{
+                    //     height: 30,
+                    //     width: 30,
+                    //     tintColor: focused ? 'red' : 'black',
+                    // }}
+                    // />
                 ),
                 tabBarActiveTintColor: 'red',
                 tabBarInactiveTintColor: 'black',
