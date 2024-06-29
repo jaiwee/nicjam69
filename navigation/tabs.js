@@ -15,6 +15,7 @@ import SearchScreen from '../screens/tabs/SearchScreen';
 import PostScreen from '../screens/tabs/PostScreen';
 import IMAGES from '../images/index.js';
 import DateScreen from '../screens/tabs/DateScreen.js';
+import SellerProfileScreen from '../screens/search/SellerProfileScreen.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,11 @@ const StackNavigation = () => {
                 name={SCREENS.HOME}
                 component={TabNavigator}
                 options={{headerShown: false}}
+            />
+            <Stack.Screen
+                name={SCREENS.SELLERPROFILE}
+                component={SellerProfileScreen}
+                options={{headerShown: true}}
             />
         </Stack.Navigator>
     )
