@@ -1,12 +1,13 @@
-# Trendly
+# Trendly.
 
 An NUS Orbital Project (CP2106 Independent Software Development Project) \
 *by Jamie Wee and Nicole Chay* \
 Test it out here: https://expo.dev/preview/update?message=edited%20duplicate&updateRuntimeVersion=1.0.0&createdAt=2024-06-30T15%3A15%3A25.205Z&slug=exp&projectId=a96535f7-cb62-49f9-8229-470432900edd&group=672c283d-3607-498b-b05f-99f9f5088920
 
 ## Table of Contents
-[Introduction](#Introduction)
-[Setup](#setup)
+- [Introduction](#Introduction)
+- [Setup](#setup)
+- [User Diagram](#setup)
 
 ### Introduction
 **Targeted Level of Achievement**: Apollo 11
