@@ -54,82 +54,40 @@ const StackNavigation = () => {
 
 const TabNavigator = () => {
     return (
-        <Tab.Navigator >
+        <Tab.Navigator screenOptions={{
+            activeTintColor: '#ffffff',
+        }} >
             <Tab.Screen
                 name={SCREENS.HOME}
                 component={HomeScreen}
                 options={{
-                title: 'Home',
-                tabBarIcon: ({focused}) => (
-                    // <FontAwesome name = "home" />
-                    <Ionicons name="home" size={30} 
-                        style={{
-                        height: 30,
-                        width: 30,
-                        tintColor: focused ? 'red' : 'black',
-                    }}
-                    />
-                    // <Image
-                    // source={IMAGES.HOME}
-                    // style={{
-                    //     height: 30,
-                    //     width: 30,
-                    //     tintColor: focused ? 'red' : 'black',
-                    // }}
-                    // />
-                ),
-                tabBarActiveTintColor: 'red',
-                tabBarInactiveTintColor: 'black',
+                    tabBarLabel: 'Home',
+                    tabBarActiveTintColor: 'red',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home" size={28} color= {color} />
+                    ),
                 }}
             />
             <Tab.Screen
                 name={SCREENS.SEARCH}
                 component={SearchScreen}
                 options={{
-                title: 'Search',
-                tabBarIcon: ({focused}) => (
-                    <Ionicons name="search" size={30}
-                        style={{
-                        height: 30,
-                        width: 30,
-                        tintColor: focused ? 'red' : 'black',
-                    }}/>
-                    // <Image
-                    // source={IMAGES.SEARCH}
-                    // style={{
-                    //     height: 30,
-                    //     width: 30,
-                    //     tintColor: focused ? 'red' : 'black',
-                    // }}
-                    // />
-                ),
-                tabBarActiveTintColor: 'red',
-                tabBarInactiveTintColor: 'black',
+                    tabBarLabel: 'Search',
+                    tabBarActiveTintColor: 'red',
+                    tabBarIcon: ({ color, size }) => (
+                        <EvilIcons name="search" size={35} color={color} />
+                    ),
                 }}
             />
             <Tab.Screen
                 name={SCREENS.POST}
                 component={PostScreen}
                 options={{
-                title: 'Post',
-                tabBarIcon: ({focused}) => (
-                    <Ionicons name="add-circle-outline" size={30}
-                        style={{
-                        height: 30,
-                        width: 30,
-                        tintColor: focused ? 'red' : 'black',
-                    }}/>
-                    // <Image
-                    // source={IMAGES.POST}
-                    // style={{
-                    //     height: 30,
-                    //     width: 30,
-                    //     tintColor: focused ? 'red' : 'black',
-                    // }}
-                    // />
-                ),
-                tabBarActiveTintColor: 'red',
-                tabBarInactiveTintColor: 'black',
+                    tabBarLabel: 'Post',
+                    tabBarActiveTintColor: 'red',
+                    tabBarIcon: ({ color, size }) => (
+                        <EvilIcons name="plus" size={35} color={color} />
+                    ),
                 }}
             />
             <Tab.Screen
