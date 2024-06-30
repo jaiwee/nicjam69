@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons'; // Import Icon from react-native-vector-icons
 import SCREENS from '../screens';
 
 const cards = [
-  { id: 1, name: 'User 1', image: 'https://via.placeholder.com/150', description: 'User 1 description' },
-  { id: 2, name: 'User 2', image: 'https://via.placeholder.com/150', description: 'User 2 description' },
-  { id: 3, name: 'User 3', image: 'https://via.placeholder.com/150', description: 'User 3 description' },
+  { id: 1, name: 'Handmade beaded necklace', image: 'https://media.karousell.com/media/photos/products/2023/10/27/handmade_beaded_necklace_brace_1698370420_d02b5ba7_progressive.jpg', description: 'User 1 description' },
+  { id: 2, name: 'Vintage bag', image: 'https://media.karousell.com/media/photos/products/2023/3/1/y2k_vintage_shoulder_bag_1677650889_6045c786_progressive.jpg', description: 'User 2 description' },
+  { id: 3, name: 'Crochet crop top', image: 'https://media.karousell.com/media/photos/products/2021/6/21/crochet_toga_top_1624243146_86b84ce9_progressive.jpg', description: 'User 3 description' },
 ];
 
 const DateScreen = () => {
   const [swipedAllCards, setSwipedAllCards] = useState(false);
+  const [liked, setLiked] = useState(false);
   const navigation = useNavigation();
 
   const handleSwipedAll = () => {
@@ -24,8 +26,24 @@ const DateScreen = () => {
     navigation.navigate(SCREENS.PRODUCT_DETAIL, { product });
   };
 
+  const handleLikePress = () => {
+    setLiked(!liked);
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.HOME)} style={styles.backButton}>
+          <Icon name="arrow-back" size={24} color="#888" />
+        </TouchableOpacity>
+        <View style={styles.headerContent}>
+          <Text style={styles.headerTitle}>Discover</Text>
+          <Text style={styles.locationText}>Location: National University of Singapore</Text>
+        </View>
+        <TouchableOpacity onPress={handleLikePress} style={styles.likeButton}>
+          <Text style={styles.likeButtonText}>{liked ? '♥' : '♡'}</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.swiperContainer}>
         <Swiper
           cards={cards}
@@ -44,51 +62,11 @@ const DateScreen = () => {
           infinite
           containerStyle={styles.swiper}
           cardStyle={styles.cardContainer}
-          overlayLabels={{
-            left: {
-              title: 'NOPE',
-              style: {
-                label: {
-                  backgroundColor: 'red',
-                  borderColor: 'red',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-start',
-                  marginTop: 20,
-                  marginLeft: -20
-                }
-              }
-            },
-            right: {
-              title: 'LIKE',
-              style: {
-                label: {
-                  backgroundColor: 'green',
-                  borderColor: 'green',
-                  color: 'white',
-                  borderWidth: 1
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                  marginTop: 20,
-                  marginLeft: 20
-                }
-              }
-            },
-          }}
         />
       </View>
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleBuyNowPress}>
-          <Text style={styles.buttonText}>Buy Now</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.buttonContainer} onPress={handleBuyNowPress}>
+        <Text style={styles.buttonText}>Buy Now</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -97,20 +75,47 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    justifyContent: 'center',
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
     alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    justifyContent: 'space-between',
+  },
+  backButton: {
+    padding: 10,
+  },
+  headerContent: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  locationText: {
+    fontSize: 14,
+    color: '#888',
+  },
+  likeButton: {
+    padding: 10,
+  },
+  likeButtonText: {
+    fontSize: 24,
+    color: '#888',
   },
   swiperContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     width: '100%',
-    marginTop: -120,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   swiper: {
     flex: 1,
-    marginBottom: 20,
-    justifyContent: 'center',
   },
   cardContainer: {
     justifyContent: 'center',
@@ -134,32 +139,23 @@ const styles = StyleSheet.create({
   },
   cardText: {
     textAlign: 'center',
-    fontSize: 24,
+    fontSize: 18, // Adjust the font size for better visibility
     backgroundColor: 'transparent',
+    padding: 10,
   },
   buttonContainer: {
-    width: '100%',
-    padding: 20,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    borderTopWidth: 1,
-    borderTopColor: '#F1F3FA',
-  },
-  button: {
     backgroundColor: '#F1F3FA',
     padding: 15,
     borderRadius: 5,
     width: '80%',
     alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 20,
+    alignSelf: 'center',
   },
   buttonText: {
     color: '#000000',
     fontSize: 18,
-  },
-  message: {
-    fontSize: 18,
-    marginBottom: 10,
   },
 });
 

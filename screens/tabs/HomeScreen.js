@@ -14,12 +14,12 @@ const HomeScreen = () => {
     // Sample product data
     useEffect(() => {
         setProducts([
-            { id: '1', uri: 'https://via.placeholder.com/150', title: 'Product 1' },
-            { id: '2', uri: 'https://via.placeholder.com/150', title: 'Product 2' },
-            { id: '3', uri: 'https://via.placeholder.com/150', title: 'Product 3' },
-            { id: '4', uri: 'https://via.placeholder.com/150', title: 'Product 4' },
-            { id: '5', uri: 'https://via.placeholder.com/150', title: 'Product 5' },
-            { id: '6', uri: 'https://via.placeholder.com/150', title: 'Product 6' },
+            { id: '1', uri: 'https://nationalvintageleague.com/cdn/shop/files/IMG_1279_1200x1200.jpg?v=1614337388', title: 'interest check for vintage nfl jerseys!', liked: false, likes: 10 },
+            { id: '2', uri: 'https://i.pinimg.com/736x/db/96/fb/db96fb534750538b196561d8d5a475f7.jpg', title: 'sneak peek for our next drop!', liked: false, likes: 5 },
+            { id: '3', uri: 'https://media.karousell.com/media/photos/products/2024/5/7/smiski_keychain_hiding_series__1715059984_4af35980_progressive.jpg', title: 'customs open!', liked: false, likes: 8 },
+            { id: '4', uri: 'https://media.karousell.com/media/photos/products/2024/4/8/peach_pink_glass_beads_bracele_1712549276_ffbec1f2_progressive.jpg', title: 'absolutely LOVE my new purchase', liked: false, likes: 12 },
+            { id: '5', uri: 'https://via.placeholder.com/150', title: 'Post 5', liked: false, likes: 3 },
+            { id: '6', uri: 'https://via.placeholder.com/150', title: 'Post 6', liked: false, likes: 6 },
         ]);
     }, []);
 
@@ -32,28 +32,41 @@ const HomeScreen = () => {
     };
 
     const handleProductPress = (product) => {
-        console.log('Product pressed:', product); // Add logging
+        console.log('Product pressed:', product);
         navigation.navigate(SCREENS.PRODUCT_DETAIL, { product });
     };
 
+    const handleLikePress = (id) => {
+        setProducts(products.map(product => {
+            if (product.id === id) {
+                const updatedLikes = product.liked ? product.likes - 1 : product.likes + 1;
+                return { ...product, liked: !product.liked, likes: updatedLikes };
+            }
+            return product;
+        }));
+    };
+
     const renderProduct = ({ item }) => (
-        <TouchableOpacity onPress={() => handleProductPress(item)} style={styles.imageContainer}>
-            <Image source={{ uri: item.uri }} style={styles.image} />
-            <Text style={styles.productTitle}>{item.title}</Text>
-        </TouchableOpacity>
+        <View style={styles.productContainer}>
+            <TouchableOpacity onPress={() => handleProductPress(item)} style={styles.imageContainer}>
+                <Image source={{ uri: item.uri }} style={styles.image} />
+            </TouchableOpacity>
+            <View style={styles.titleContainer}>
+                <Text style={styles.productTitle}>{item.title}</Text>
+                <View style={styles.likeContainer}>
+                    <TouchableOpacity onPress={() => handleLikePress(item.id)}>
+                        <Text style={[styles.likeButton, item.liked ? styles.liked : null]}>
+                            {item.liked ? '♥' : '♡'}
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={styles.likesCount}>{item.likes} likes</Text>
+                </View>
+            </View>
+        </View>
     );
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.welcomeText}>
-                    Welcome back!
-                </Text>
-                <Text> Email: {auth.currentUser?.email} </Text>
-                <TouchableOpacity onPress={handleSignout} style={styles.button}>
-                    <Text style={styles.buttonText}> Sign out </Text>
-                </TouchableOpacity>
-            </View>
             <FlatList
                 data={products}
                 renderItem={renderProduct}
@@ -98,19 +111,45 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginBottom: 10,
     },
-    imageContainer: {
+    productContainer: {
         flex: 1,
         margin: 5,
         borderRadius: 8,
         overflow: 'hidden',
         backgroundColor: '#f0f0f0',
+        paddingBottom: 10,
+    },
+    imageContainer: {
+        flex: 1,
     },
     image: {
         width: '100%',
         height: 150,
     },
-    productTitle: {
+    titleContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
         padding: 5,
+    },
+    productTitle: {
+        flex: 1,
         textAlign: 'center',
+    },
+    likeContainer: {
+        alignItems: 'center',
+    },
+    likeButton: {
+        fontSize: 24,
+        padding: 5,
+        color: '#888',
+    },
+    liked: {
+        color: 'red',
+    },
+    likesCount: {
+        textAlign: 'center',
+        fontSize: 14,
+        color: '#888',
     },
 });
