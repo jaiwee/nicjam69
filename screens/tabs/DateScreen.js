@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
+import { useNavigation } from '@react-navigation/native';
+import SCREENS from '../screens';
 
 const cards = [
-  { id: 1, name: 'User 1' },
-  { id: 2, name: 'User 2'},
-  { id: 3, name: 'User 3' }
+  { id: 1, name: 'User 1', image: 'https://via.placeholder.com/150', description: 'User 1 description' },
+  { id: 2, name: 'User 2', image: 'https://via.placeholder.com/150', description: 'User 2 description' },
+  { id: 3, name: 'User 3', image: 'https://via.placeholder.com/150', description: 'User 3 description' },
 ];
+
 const DateScreen = () => {
   const [swipedAllCards, setSwipedAllCards] = useState(false);
+  const navigation = useNavigation();
 
   const handleSwipedAll = () => {
-    console.log('All cards swiped'); // Debugging log
+    console.log('All cards swiped');
     setSwipedAllCards(true);
+  };
+
+  const handleBuyNowPress = () => {
+    const product = cards[0];
+    navigation.navigate(SCREENS.PRODUCT_DETAIL, { product });
   };
 
   return (
@@ -23,21 +32,18 @@ const DateScreen = () => {
           renderCard={(card) => {
             return (
               <View style={styles.card}>
-                <Image source={card.image} style={styles.image} />
+                <Image source={{ uri: card.image }} style={styles.image} />
                 <Text style={styles.cardText}>{card.name}</Text>
               </View>
             );
           }}
           onSwipedAll={handleSwipedAll}
-          onSwiped={(cardIndex) => { console.log(`Card swiped, index: ${cardIndex}`) }}
-          onSwipedLeft={(cardIndex) => { console.log(`Card swiped left, index: ${cardIndex}`) }}
-          onSwipedRight={(cardIndex) => { console.log(`Card swiped right, index: ${cardIndex}`) }}
           cardIndex={0}
           backgroundColor={'#fff'}
           stackSize={3}
           infinite
-          containerStyle={styles.swiper} // Center align the swiper
-          cardStyle={styles.cardContainer} // Center align the cards within the swiper
+          containerStyle={styles.swiper}
+          cardStyle={styles.cardContainer}
           overlayLabels={{
             left: {
               title: 'NOPE',
@@ -79,7 +85,7 @@ const DateScreen = () => {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('Buy Now pressed')}>
+        <TouchableOpacity style={styles.button} onPress={handleBuyNowPress}>
           <Text style={styles.buttonText}>Buy Now</Text>
         </TouchableOpacity>
       </View>
@@ -97,30 +103,30 @@ const styles = StyleSheet.create({
   swiperContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center', // Center align the swiper container
-    width: '100%', // Ensure it takes full width
+    alignItems: 'center',
+    width: '100%',
     marginTop: -120,
   },
   swiper: {
     flex: 1,
-    marginBottom: 20, // Ensure there's space for the button
+    marginBottom: 20,
     justifyContent: 'center',
   },
   cardContainer: {
-    justifyContent: 'center', // Center align the cards within the swiper
+    justifyContent: 'center',
     alignItems: 'center',
   },
   card: {
-    width: 300, // Set a fixed width for the cards
-    height: 400, // Set a fixed height for the cards
+    width: 300,
+    height: 400,
     borderRadius: 4,
     borderWidth: 2,
     borderColor: '#E8E8E8',
     justifyContent: 'center',
-    alignItems: 'center', // Center align the content inside the card
+    alignItems: 'center',
     backgroundColor: 'white',
-    overflow: 'hidden', // Ensure the image is properly clipped to the card's border radius
-    marginBottom: 20, // Add margin to create space between cards and button
+    overflow: 'hidden',
+    marginBottom: 20,
   },
   image: {
     width: '100%',
