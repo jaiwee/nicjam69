@@ -12,7 +12,6 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/tabs/HomeScreen';
 import SearchScreen from '../screens/tabs/SearchScreen';
 import PostScreen from '../screens/tabs/PostScreen';
-import DateScreen from '../screens/tabs/DateScreen';
 import ProductDetailScreen from '../screens/tabs/ProductDetailScreen'; // Import ProductDetailScreen
 import IMAGES from '../images/index.js';
 import DateScreen from '../screens/tabs/DateScreen.js';
