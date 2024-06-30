@@ -187,12 +187,13 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   deleteText: {
-    color: 'white',
+    fontFamily: 'Helvetica-bold',
+    color: 'red',
     fontWeight: 'bold',
     margin: 5
   },
   deleteButton: {
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     borderRadius: 5,
     marginVertical: 5
   },

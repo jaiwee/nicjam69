@@ -37,6 +37,10 @@ const LoginScreen = () => {
         .catch(error => alert(error.message))
     }
 
+    const handleForgotPassword = () => {
+        console.log("forgot password pressed!")
+    }
+
     const handleLogin = props => {
         
         signInWithEmailAndPassword(auth, email, password)
@@ -82,6 +86,10 @@ const LoginScreen = () => {
                             style = {styles.input} 
                             secureTextEntry
                         />
+
+                        <TouchableOpacity style = {styles.forgotPasswordContainer} onPress = {() => handleForgotPassword()}>
+                            <Text style = {styles.forgotPasswordText}> Forgot Password? </Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View style = {styles.buttonContainer}>
@@ -101,7 +109,6 @@ const LoginScreen = () => {
                         <TouchableOpacity
                             onPress={() => {
                                 handleSignup();
-                                
                                }}
                             style = {[styles.button, styles.buttonOutline]}
                         >
@@ -172,6 +179,12 @@ const styles = StyleSheet.create({
         fontSize: 35,
         fontFamily: 'Helvetica'
     },
+    forgotPasswordContainer: {
+        paddingTop: 10,
+    },
+    forgotPasswordText: {
+        fontFamily: 'Helvetica-Oblique'
+    },  
     input: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
