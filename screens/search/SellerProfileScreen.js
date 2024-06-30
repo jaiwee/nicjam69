@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import ProfileHeaderComponent from '../../components/ProfileHeaderComponent';
 import GalleryComponent from '../../components/GalleryComponent';
+import COLORS from '../../constants/colors';
 
 const SellerProfileScreen = () => {
     const [profile, setProfile] = useState(null);
@@ -31,7 +32,7 @@ const SellerProfileScreen = () => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 19,
-        backgroundColor: "#F1F3FA"
+        backgroundColor: COLORS.BLUE
     },
 })
 
