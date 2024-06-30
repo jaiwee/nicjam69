@@ -1,0 +1,20 @@
+{
+    "username": "DESAIEL",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8vqgVi-579rjLgoFtC4LlD_YQVW6fELrw3g&s",
+    "bio": "a small biz specialising in trinkets and all things cute, sg-based <3",
+    "telegram": "https://t.me/desaiel",
+    "followers": [
+        {
+            "counter": 10,
+            "desc": "followers"
+        },
+        {
+            "counter": 200,
+            "desc": "sold"
+        },
+        {
+            "counter": 4.8,
+            "desc": "rating"
+        }
+    ]
+}

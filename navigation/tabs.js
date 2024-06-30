@@ -1,6 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
+import Icon from '@expo/vector-icons/FontAwesome5'
+import Ionicons from '@expo/vector-icons/Ionicons.js'
+import FontAwesome from '@expo/vector-icons/FontAwesome.js'
+import EvilIcons from '@expo/vector-icons/EvilIcons.js'
+
 
 import SCREENS from '../screens/screens.js';
 import LoginScreen from '../screens/auth/LoginScreen';
@@ -10,6 +15,9 @@ import PostScreen from '../screens/tabs/PostScreen';
 import DateScreen from '../screens/tabs/DateScreen';
 import ProductDetailScreen from '../screens/tabs/ProductDetailScreen'; // Import ProductDetailScreen
 import IMAGES from '../images/index.js';
+import DateScreen from '../screens/tabs/DateScreen.js';
+import SellerProfileScreen from '../screens/search/SellerProfileScreen.js';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -32,68 +40,51 @@ const StackNavigation = () => {
                 component={ProductDetailScreen}
                 options={{ headerShown: true }}
             />
+            <Stack.Screen
+                name={SCREENS.SELLERPROFILE}
+                component={SellerProfileScreen}
+                options={{headerShown: true}}
+            />
         </Stack.Navigator>
     );
 };
 
 const TabNavigator = () => {
     return (
-        <Tab.Navigator>
+        <Tab.Navigator screenOptions={{
+            activeTintColor: '#ffffff',
+        }} >
             <Tab.Screen
                 name={SCREENS.HOME}
                 component={HomeScreen}
                 options={{
-                    title: 'Home',
-                    tabBarIcon: ({ focused }) => (
-                        <Image
-                            source={IMAGES.HOME}
-                            style={{
-                                height: 30,
-                                width: 30,
-                                tintColor: focused ? 'red' : 'black',
-                            }}
-                        />
-                    ),
+                    tabBarLabel: 'Home',
                     tabBarActiveTintColor: 'red',
-                    tabBarInactiveTintColor: 'black',
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="home" size={28} color= {color} />
+                    ),
                 }}
             />
             <Tab.Screen
                 name={SCREENS.SEARCH}
                 component={SearchScreen}
                 options={{
-                    title: 'Search',
-                    tabBarIcon: ({ focused }) => (
-                        <Image
-                            source={IMAGES.SEARCH}
-                            style={{
-                                height: 30,
-                                width: 30,
-                                tintColor: focused ? 'red' : 'black',
-                            }}
-                        />
-                    ),
+                    tabBarLabel: 'Search',
                     tabBarActiveTintColor: 'red',
-                    tabBarInactiveTintColor: 'black',
+                    tabBarIcon: ({ color, size }) => (
+                        <EvilIcons name="search" size={35} color={color} />
+                    ),
                 }}
             />
             <Tab.Screen
                 name={SCREENS.POST}
                 component={PostScreen}
                 options={{
-                    title: 'Post',
-                    tabBarIcon: ({ focused }) => (
-                        <Image
-                            source={IMAGES.POST}
-                            style={{
-                                height: 30,
-                                width: 30,
-                                tintColor: focused ? 'red' : 'black',
-                            }}
-                        />
-                    ),
+                    tabBarLabel: 'Post',
                     tabBarActiveTintColor: 'red',
-                    tabBarInactiveTintColor: 'black',
+                    tabBarIcon: ({ color, size }) => (
+                        <EvilIcons name="plus" size={35} color={color} />
+                    ),
                 }}
             />
             <Tab.Screen

@@ -6,8 +6,9 @@ import 'firebase/compat/firestore';
 import { auth } from '../../firebaseConfig.js'
 import { useNavigation } from '@react-navigation/native';
 import SCREENS from '../screens.js';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const image = require('../../images/background.png');
+const image = require('../../images/bg3.jpeg');
 
 const LoginScreen = () => {
     // const {navigation} = props;
@@ -36,6 +37,10 @@ const LoginScreen = () => {
         .catch(error => alert(error.message))
     }
 
+    const handleForgotPassword = () => {
+        console.log("forgot password pressed!")
+    }
+
     const handleLogin = props => {
         
         signInWithEmailAndPassword(auth, email, password)
@@ -56,32 +61,10 @@ const LoginScreen = () => {
                 behaviour = "padding" 
             >
                 <ImageBackground source={image} style={styles.image} resizeMode='cover'>
-
-                    <TouchableWithoutFeedback
-                        onPress={() => {
-                        navigation.navigate(SCREENS.HOME);
-                        }}>
-                        <View
-                        style={{
-                            height: 50,
-                            backgroundColor: 'black',
-                            marginTop: 20,
-                            borderRadius: 10,
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                        }}>
-                        <Text
-                            style={{
-                            color: 'white',
-                            fontSize: 16,
-                            }}>
-                            Sign In
-                        </Text>
-                        </View>
-                    </TouchableWithoutFeedback>
+                    
                     <View style = {styles.welcomeTextContainer}>
                         <Text style = {styles.welcomeText}>
-                            BusiNUS
+                            Trendly.
                         </Text>
                         <Text style = {styles.bottomText}>
                             by students, for students.
@@ -103,6 +86,10 @@ const LoginScreen = () => {
                             style = {styles.input} 
                             secureTextEntry
                         />
+
+                        <TouchableOpacity style = {styles.forgotPasswordContainer} onPress = {() => handleForgotPassword()}>
+                            <Text style = {styles.forgotPasswordText}> Forgot Password? </Text>
+                        </TouchableOpacity>
                     </View>
 
                     <View style = {styles.buttonContainer}>
@@ -122,7 +109,6 @@ const LoginScreen = () => {
                         <TouchableOpacity
                             onPress={() => {
                                 handleSignup();
-                                
                                }}
                             style = {[styles.button, styles.buttonOutline]}
                         >
@@ -132,6 +118,30 @@ const LoginScreen = () => {
                                 Sign Up
                             </Text>
                         </TouchableOpacity>
+
+                        <TouchableWithoutFeedback
+                        onPress={() => {
+                        navigation.navigate(SCREENS.HOME);
+                        }}>
+                        <View
+                        style={{
+                            height: 50,
+                            backgroundColor: 'black',
+                            marginTop: 20,
+                            paddingHorizontal: 20,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                        <Text
+                            style={{
+                            color: 'white',
+                            fontSize: 16,
+                            }}>
+                            For Devs
+                        </Text>
+                        </View>
+                    </TouchableWithoutFeedback>
 
                     </View>
                 </ImageBackground>
@@ -159,7 +169,7 @@ const styles = StyleSheet.create({
     },
     welcomeTextContainer: {
         marginLeft: 5,
-        marginTop: 180,
+        marginTop: 350,
         marginVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
@@ -167,7 +177,14 @@ const styles = StyleSheet.create({
     welcomeText: {
         fontWeight: 'bold',
         fontSize: 35,
+        fontFamily: 'Helvetica'
     },
+    forgotPasswordContainer: {
+        paddingTop: 10,
+    },
+    forgotPasswordText: {
+        fontFamily: 'Helvetica-Oblique'
+    },  
     input: {
         backgroundColor: 'white',
         paddingHorizontal: 15,
@@ -193,7 +210,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 800,
         fontSize: 16,
-        fontStyle: 'bold'
+        fontStyle: 'bold',
+        fontFamily: 'Helvetica-Neue'
     },
     buttonOutline: {
         backgroundColor: 'white',
