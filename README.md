@@ -33,7 +33,9 @@ Our app aims to address these issues by providing a centralised marketplace, sim
 **Requirements:** Have [Node.js](https://nodejs.org/en), [React Native](https://reactnative.dev/) installed
 
 #### Clone the repository
-`git clone https://github.com/jaiwee/nicjam69.git`
+```
+git clone https://github.com/jaiwee/nicjam69.git
+```
 
 #### Install the necessary packages: 
 `npm install or yarn install`
