@@ -37,7 +37,8 @@ Our app aims to address these issues by providing a centralised marketplace, sim
 
 #### Install the necessary packages: 
 `npm install or yarn install`
-If you run into any errors, follow the instructions given by git. Likely, you will have to run `npm audit fix`
+If you run into any errors, follow the instructions given by git. 
+Likely, you will have to run `npm audit fix`
 
 #### Start the React Native app: 
 `npm start or yarn start`
