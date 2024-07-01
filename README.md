@@ -7,7 +7,6 @@ Test it out here: https://expo.dev/preview/update?message=edited%20duplicate&upd
 ## Table of Contents
 - [Introduction](#Introduction)
 - [Setup](#setup)
-- [User Diagram](#setup)
 
 ### Introduction
 **Targeted Level of Achievement**: Apollo 11
@@ -30,3 +29,18 @@ Our app aims to address these issues by providing a centralised marketplace, sim
 
 
 ### Setup
+
+**Requirements:** Have [Node.js](https://nodejs.org/en), [React Native](https://reactnative.dev/) installed
+
+#### Clone the repository
+`git clone https://github.com/jaiwee/nicjam69.git`
+
+#### Install the necessary packages: 
+`npm install or yarn install`
+If you run into any errors, follow the instructions given by git. Likely, you will have to run `npm audit fix`
+
+#### Start the React Native app: 
+`npm start or yarn start`
+
+The app should be live and running on your phone.
+
