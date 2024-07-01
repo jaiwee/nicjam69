@@ -67,6 +67,7 @@ const HomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <TouchableOpacity style = {{height : 30, borderRadius: 15, color: 'purple'}} onPress = {handleSignout}><Text> sign out </Text></TouchableOpacity>
             <FlatList
                 data={products}
                 renderItem={renderProduct}
