@@ -38,12 +38,16 @@ git clone https://github.com/jaiwee/nicjam69.git
 ```
 
 #### Install the necessary packages: 
-`npm install or yarn install`
+```
+npm install or yarn install
+```
 If you run into any errors, follow the instructions given by git. 
 Likely, you will have to run `npm audit fix`
 
 #### Start the React Native app: 
-`npm start or yarn start`
+```
+npm start or yarn start
+```
 
 The app should be live and running on your phone.
 
