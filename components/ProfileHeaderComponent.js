@@ -5,7 +5,6 @@ import GalleryComponent from './GalleryComponent';
 
 
 const ProfileHeaderComponent = ({config}) => {
-  console.log("received by profile header")
   console.log(config.image);
   console.log(config.followers);
   console.log(config);
@@ -37,10 +36,6 @@ const ProfileHeaderComponent = ({config}) => {
         <View style = {styles.actionContainer}>
           <TouchableOpacity style = {[styles.button, {backgroundColor: '#1F41BB'}]}>
               <Text style = {styles.btnText}> Follow </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style = {[styles.button, {backgroundColor: '#E8F0F2', borderWidth: 0.5}]}>
-              <Text style = {[styles.btnText, {color: 'black'}]}> Message </Text>
             </TouchableOpacity>
         </View>
     </View>
@@ -88,7 +83,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     paddingVertical: 10,
-    width: '48%',
+    width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
