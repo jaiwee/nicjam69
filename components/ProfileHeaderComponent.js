@@ -1,7 +1,6 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity, Linking} from 'react-native';
 import React from 'react';
 import CounterComponent from './CounterComponent';
-import GalleryComponent from './GalleryComponent';
 
 
 const ProfileHeaderComponent = ({config}) => {
