@@ -4,8 +4,8 @@ import CounterComponent from './CounterComponent';
 
 
 const ProfileHeaderComponent = ({config}) => {
-  console.log(config.image);
-  console.log(config.followers);
+  console.log(config.imageURL);
+  console.log(config.followerCount);
   console.log(config);
 
   const handleOpenURL = (tele) => {
@@ -15,19 +15,18 @@ const ProfileHeaderComponent = ({config}) => {
   return (
     <View>
         <View style = {styles.profileFollowContainer}>
-            <Image source = {{uri: config.image}} style = {styles.profileImage}/>
+            <Image source = {{uri: config.imageURL}} style = {styles.profileImage}/>
             <View style = {styles.statsContainer}>
-              {config.followers && config.followers.length > 0 && 
-              config.followers.map((item, index) => {
-                return (<CounterComponent key = {index} counter = {item.counter} description = {item.desc} />)
-              })}
+              <CounterComponent counter = {config.followerCount} description = {"followers"} />
+              <CounterComponent counter = {config.productsSold} description = {"sold"} />
+              <CounterComponent counter = {config.rating} description = {"rating"} />
             </View>
         </View>
 
         <View style = {styles.infoContainer}>
-            <Text style = {styles.username}>@{config.username} </Text>
+            <Text style = {styles.username}>@{config.sellerName} </Text>
             <Text style={{color: '#1F41BB'}}
-                  onPress={() => handleOpenURL(config.telegram)}> {config.telegram}
+                  onPress={() => handleOpenURL(config.telegramLink)}> {config.telegramLink}
             </Text>
             <Text style = {styles.desc}> {config.bio} </Text>
         </View>

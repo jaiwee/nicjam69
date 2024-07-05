@@ -27,8 +27,8 @@ const SearchBarComponent = ({}) => {
     }
 
     const onSellerPress = ({seller}) => {
-        console.log(seller);
-        navigation.navigate(SCREENS.SELLERPROFILE);
+        console.log("THE SELLER IS" , seller);
+        navigation.navigate(SCREENS.SELLERPROFILE, {seller: seller, test: 'hello!'});
     }
 
   return (

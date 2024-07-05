@@ -27,29 +27,66 @@ const getSellerStats = async () => {
     return stats;
 }
 
-const SellerProfileScreen = () => {
+const getSellerProducts = async (seller) => {
+    console.log("GETTING SELLER PRODUCTS")
+    console.log("SELLER IS ", seller)
+    const sellersRef = collection(db, "products");
+    const q = query(sellersRef, where("sellerName", "==", seller));
+
+    const querySnapshot = await getDocs(q);
+
+    const prods = [];
+
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        prods.push(data)
+      });
+
+    console.log(prods)
+    return prods;
+}
+
+const SellerProfileScreen = ({route}) => {
     const [profile, setProfile] = useState(null);
     const [gallery, setGallery] = useState(null);
+    const [prods, setProds] = useState([]); 
+    const {seller, test} = route.params;
+
+    console.log(test);
+    console.log(seller);
+
     useEffect( () => {
-        const profileData = require('../../assets/mocks/users.json');
-        console.log(profileData.image);
+        const profileData = seller;
         setProfile(profileData);
 
-        const gallery = require('../../assets/mocks/gallery.json');
-        console.log(gallery);
-        setGallery(gallery);
+        // const gallery = require('../../assets/mocks/gallery.json');
+        // console.log(gallery);
+        // setGallery(gallery);
+        handleGetSellerProducts();
     }, [])
+
+    const handleGetSellerProducts = () => {
+        getSellerProducts(seller.sellerName)
+          .then(products => {
+            // Handle products data as needed
+            console.log("Products:", products);
+            setProds(products);
+          })
+          .catch(error => {
+            console.error("Error fetching seller products:", error);
+          });
+      };
 
     return (
     <ScrollView scrollEnabled = {true} showsVerticalScrollIndicator = {false} style = {styles.container}>
-        <TouchableOpacity onPress = {getSellerStats}> 
+        <TouchableOpacity onPress = {handleGetSellerProducts}> 
          <Text>CLICK MEEEE</Text> 
         </TouchableOpacity>
         <StatusBar barStyle = {'dark-content'}/>
         {profile && <ProfileHeaderComponent config = {profile}/>}
 
-        {gallery && gallery.length > 0 &&
-        <GalleryComponent gallery = {gallery}/>}
+        {prods && prods.length > 0 &&
+        <GalleryComponent gallery = {prods}/>}
     </ScrollView>
     );
 };

@@ -7,9 +7,14 @@ const FirstRoute = ({gallery}) => (
     <View style = {styles.galleryContainer}>
         {gallery.map((item, index) => {
             return (
-                <Image 
-                style = {styles.galleryCard}
-                key = {index} source = {{uri: item}}/>
+                // <Image 
+                // style = {styles.galleryCard}
+                // key = {index} source = {{uri: item}}/>
+                <View key = {item.imageURL} >
+                    <Image 
+                        style = {styles.galleryCard}
+                        source = {{uri: item.imageURL}}/>
+                </View>
             )
         })}
     </View>
@@ -67,7 +72,7 @@ const ProfileTabs = ({gallery}) => {
   };
 
 const GalleryComponent = ({gallery}) => {
-    console.log("gallery component")
+    console.log("GALLERY COMPONENT LOADED")
     console.log(gallery)
   return (
     <View style = {styles.galleryContainer}>
