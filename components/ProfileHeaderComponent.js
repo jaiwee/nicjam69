@@ -35,6 +35,9 @@ const ProfileHeaderComponent = ({config}) => {
           <TouchableOpacity style = {[styles.button, {backgroundColor: '#1F41BB'}]}>
               <Text style = {styles.btnText}> Follow </Text>
             </TouchableOpacity>
+            <TouchableOpacity style = {[styles.button, {backgroundColor: 'purple'}]}>
+              <Text style = {[styles.btnText, {fontFamily: 'Helvetica-bold'}]}> TNCs </Text>
+            </TouchableOpacity>
         </View>
     </View>
   );
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     paddingVertical: 10,
-    width: '100%',
+    width: '49%',
     alignItems: 'center',
     justifyContent: 'center',
   },
