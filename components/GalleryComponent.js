@@ -20,12 +20,23 @@ const FirstRoute = ({gallery}) => (
     </View>
 );
   
-const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+const SecondRoute = ({reviews}) => (
+    <View style = {styles.galleryContainer}>
+        {reviews.map((item, index) => {
+            return (
+                <View key = {item.imageURL} >
+                    <Text>{item.reviewDesc} </Text>
+                </View>
+            )
+        })}
+    </View>
 );
 
-const ProfileTabs = ({gallery}) => {
+const ProfileTabs = ({gallery, reviews}) => {
     const layout = useWindowDimensions();
+
+    console.log("receiving reviews HEREEE");
+    console.log(reviews)
   
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
@@ -40,7 +51,7 @@ const ProfileTabs = ({gallery}) => {
             console.log("gallery is", gallery)
             return <FirstRoute gallery={gallery} />;
           case 'second':
-            return <SecondRoute />;
+            return <SecondRoute reviews={reviews}/>;
           default:
             return null;
         }
@@ -71,12 +82,12 @@ const ProfileTabs = ({gallery}) => {
     );
   };
 
-const GalleryComponent = ({gallery}) => {
-    console.log("GALLERY COMPONENT LOADED")
-    console.log(gallery)
+const GalleryComponent = ({gallery, reviews}) => {
+    // console.log("GALLERY COMPONENT LOADED")
+    // console.log(gallery)
   return (
     <View style = {styles.galleryContainer}>
-        <ProfileTabs gallery={gallery}/>
+        <ProfileTabs gallery={gallery} reviews = {reviews}/>
     </View>
   );
 };

@@ -18,8 +18,6 @@ const getSellerStats = async () => {
     const stats = [];
 
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
         const data = doc.data();
         stats.push(data)
       });
@@ -46,14 +44,34 @@ const getSellerProducts = async (seller) => {
     return prods;
 }
 
+const getSellerReviews = async (seller) => {
+    console.log("GETTING SELLER REVIEWS")
+    console.log("SELLER IS ", seller)
+    const sellersRef = collection(db, "reviews");
+    const q = query(sellersRef, where("sellerName", "==", seller));
+
+    const querySnapshot = await getDocs(q);
+
+    const revs = [];
+
+    querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        revs.push(data)
+      });
+
+    // console.log(revs)
+    return revs;
+}
+
 const SellerProfileScreen = ({route}) => {
     const [profile, setProfile] = useState(null);
     const [gallery, setGallery] = useState(null);
     const [prods, setProds] = useState([]); 
+    const [revs, setRevs] = useState([]); 
     const {seller, test} = route.params;
 
-    console.log(test);
-    console.log(seller);
+    // console.log(test);
+    // console.log(seller);
 
     useEffect( () => {
         const profileData = seller;
@@ -63,6 +81,7 @@ const SellerProfileScreen = ({route}) => {
         // console.log(gallery);
         // setGallery(gallery);
         handleGetSellerProducts();
+        handleGetSellerReviews();
     }, [])
 
     const handleGetSellerProducts = () => {
@@ -77,6 +96,19 @@ const SellerProfileScreen = ({route}) => {
           });
       };
 
+      const handleGetSellerReviews = () => {
+        getSellerReviews(seller.sellerName)
+          .then(reviews => {
+            // Handle reviews data as needed
+            console.log("reviews:", reviews);
+            setRevs(reviews);
+          })
+          .catch(error => {
+            console.error("Error fetching seller products:", error);
+          });
+      };
+
+
     return (
     <ScrollView scrollEnabled = {true} showsVerticalScrollIndicator = {false} style = {styles.container}>
         <TouchableOpacity onPress = {handleGetSellerProducts}> 
@@ -86,7 +118,7 @@ const SellerProfileScreen = ({route}) => {
         {profile && <ProfileHeaderComponent config = {profile}/>}
 
         {prods && prods.length > 0 &&
-        <GalleryComponent gallery = {prods}/>}
+        <GalleryComponent gallery = {prods} reviews = {revs} />}
     </ScrollView>
     );
 };
