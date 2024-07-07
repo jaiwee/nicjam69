@@ -5,11 +5,20 @@ import ProfileHeaderComponent from '../../components/ProfileHeaderComponent';
 import GalleryComponent from '../../components/GalleryComponent';
 import COLORS from '../../constants/colors';
 
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getCountFromServer, getDocs, query, where } from "firebase/firestore";
 import { db } from '../../firebaseConfig';
 
+const ratingValues = {
+    5: 100,
+    4: 200,
+    3: 300,
+    2: 1000,
+    1: 400,
+  };
+  
+
 const getSellerStats = async () => {
-    console.log("GETTING SELLER STATS")
+    // console.log("GETTING SELLER STATS")
     const sellersRef = collection(db, "sellers");
     const q = query(sellersRef, where("sellerName", "==", "plop"));
 
@@ -26,8 +35,8 @@ const getSellerStats = async () => {
 }
 
 const getSellerProducts = async (seller) => {
-    console.log("GETTING SELLER PRODUCTS")
-    console.log("SELLER IS ", seller)
+    // console.log("GETTING SELLER PRODUCTS")
+    // console.log("SELLER IS ", seller)
     const sellersRef = collection(db, "products");
     const q = query(sellersRef, where("sellerName", "==", seller));
 
@@ -40,13 +49,13 @@ const getSellerProducts = async (seller) => {
         prods.push(data)
       });
 
-    console.log(prods)
+    // console.log(prods)
     return prods;
 }
 
 const getSellerReviews = async (seller) => {
-    console.log("GETTING SELLER REVIEWS")
-    console.log("SELLER IS ", seller)
+    // console.log("GETTING SELLER REVIEWS")
+    // console.log("SELLER IS ", seller)
     const sellersRef = collection(db, "reviews");
     const q = query(sellersRef, where("sellerName", "==", seller));
 
@@ -63,10 +72,31 @@ const getSellerReviews = async (seller) => {
     return revs;
 }
 
+const getReviewSummary = async (seller) => {
+    const counts = {};
+
+    // Iterate over each rating value and fetch count from Firebase
+    for (let rating in ratingValues) {
+      const q = query(
+        collection(db, "reviews"),
+        where('rating', '==', parseInt(rating)),
+        where('sellerName', '==', seller)
+      );
+  
+      const snapshot = await getDocs(q);
+      counts[rating] = snapshot.size; // Use snapshot.size to get the count of documents
+  
+      console.log(`Count of ${rating} star reviews:`, counts[rating]);
+    }
+  
+    return counts;
+}
+
 const SellerProfileScreen = ({route}) => {
     const [profile, setProfile] = useState(null);
     const [gallery, setGallery] = useState(null);
     const [prods, setProds] = useState([]); 
+    const [reviewSummary, setRevSummary] = useState([]);
     const [revs, setRevs] = useState([]); 
     const {seller, test} = route.params;
 
@@ -82,6 +112,7 @@ const SellerProfileScreen = ({route}) => {
         // setGallery(gallery);
         handleGetSellerProducts();
         handleGetSellerReviews();
+        handleGetReviewSummary();
     }, [])
 
     const handleGetSellerProducts = () => {
@@ -109,6 +140,19 @@ const SellerProfileScreen = ({route}) => {
       };
 
 
+      const handleGetReviewSummary = () => {
+        getReviewSummary(seller.sellerName)
+          .then(reviewSummary => {
+            // Handle reviews data as needed
+            setRevSummary(reviewSummary);
+            console.log("reviewSummary:", reviewSummary);
+          })
+          .catch(error => {
+            console.error("Error fetching seller products:", error);
+          });
+      };
+
+
     return (
     <ScrollView scrollEnabled = {true} showsVerticalScrollIndicator = {false} style = {styles.container}>
         <TouchableOpacity onPress = {handleGetSellerProducts}> 
@@ -118,7 +162,7 @@ const SellerProfileScreen = ({route}) => {
         {profile && <ProfileHeaderComponent config = {profile}/>}
 
         {prods && prods.length > 0 &&
-        <GalleryComponent gallery = {prods} reviews = {revs} />}
+        <GalleryComponent gallery = {prods} reviews = {revs} reviewSummary = {reviewSummary}/>}
     </ScrollView>
     );
 };
