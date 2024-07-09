@@ -6,7 +6,8 @@ const SCREENS = {
     POST: 'POST',
     DATE: 'DATE',
     PRODUCT_DETAIL: 'ProductDetailScreen',
-    SELLERPROFILE: 'SELLERPROFILE'
+    SELLERPROFILE: 'SELLERPROFILE',
+    SIGNUP: 'SIGNUP'
 }
 
 export default SCREENS;

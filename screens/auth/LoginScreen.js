@@ -23,6 +23,8 @@ const LoginScreen = () => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
                 navigation.replace(SCREENS.HOME)
+                setEmail("")
+                setPassword("")
             }
         })
         return unsubscribe;
@@ -108,7 +110,7 @@ const LoginScreen = () => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                handleSignup();
+                                navigation.navigate(SCREENS.SIGNUP);
                                }}
                             style = {[styles.button, styles.buttonOutline]}
                         >

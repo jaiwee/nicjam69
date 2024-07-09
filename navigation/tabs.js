@@ -16,6 +16,7 @@ import ProductDetailScreen from '../screens/tabs/ProductDetailScreen'; // Import
 import IMAGES from '../images/index.js';
 import DateScreen from '../screens/tabs/DateScreen.js';
 import SellerProfileScreen from '../screens/search/SellerProfileScreen.js';
+import SignUpScreen from '../screens/auth/SignUpScreen.js';
 
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,11 @@ const StackNavigation = () => {
             <Stack.Screen
                 name={SCREENS.LOGIN}
                 component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.SIGNUP}
+                component={SignUpScreen}
                 options={{ headerShown: false }}
             />
             <Stack.Screen
