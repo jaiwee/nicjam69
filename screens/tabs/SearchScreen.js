@@ -1,10 +1,11 @@
-import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {View, Text, TouchableWithoutFeedback, StyleSheet, ScrollView} from 'react-native';
 import React, { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import SCREENS from '../screens';
 import TrendingComponent from '../../components/TrendingComponent';
 import HappeningComponent from '../../components/HappeningComponent';
 import SearchBarComponent from '../../components/SearchBarComponent';
+import SearchComponent from '../../components/SearchComponent';
 //  import firestore from "@react-native-firebase/firestore";
 
 const SearchScreen = () => {
@@ -33,8 +34,8 @@ const SearchScreen = () => {
     //   }, []);
 
     return (
-    <View style = {styles.container}>
-        <SearchBarComponent/>
+    <ScrollView style = {styles.container}>
+        <SearchComponent/>
         <HappeningComponent/>
         <TrendingComponent/>
         <TouchableWithoutFeedback
@@ -60,7 +61,7 @@ const SearchScreen = () => {
             </Text>
             </View>
         </TouchableWithoutFeedback>
-    </View>
+    </ScrollView>
     );
 };
 
