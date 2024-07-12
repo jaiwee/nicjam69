@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react'
-import { ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, View } from 'react-native'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
@@ -7,6 +7,11 @@ import { auth } from '../../firebaseConfig.js'
 import { useNavigation } from '@react-navigation/native';
 import SCREENS from '../screens.js';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/FontAwesome5'
+import Ionicons from '@expo/vector-icons/Ionicons.js'
+import FontAwesome from '@expo/vector-icons/FontAwesome.js'
+import EvilIcons from '@expo/vector-icons/EvilIcons.js'
+
 
 const image = require('../../images/bg3.jpeg');
 
@@ -16,6 +21,7 @@ const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [home, setHome] = useState('')
+    const [passwordVisible, setPasswordVisible] = useState(true)
 
     const navigation = useNavigation();
 
@@ -87,7 +93,9 @@ const LoginScreen = () => {
                             onChangeText = {text => setPassword(text)}
                             style = {styles.input} 
                             secureTextEntry
+                                
                         />
+                        
 
                         <TouchableOpacity style = {styles.forgotPasswordContainer} onPress = {() => handleForgotPassword()}>
                             <Text style = {styles.forgotPasswordText}> Forgot Password? </Text>
