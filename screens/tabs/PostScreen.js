@@ -1,14 +1,40 @@
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image} from 'react-native';
-import React, { useState } from 'react';
+import {View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, Image, Alert} from 'react-native';
+import React, { useEffect, useState } from 'react';
 import * as ImagePicker from "expo-image-picker";
+import * as FileSystem from 'expo-file-system';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getDownloadURL, uploadBytes, ref, uploadBytesResumable} from 'firebase/storage';
-import { addDoc, collection, onSnapshot} from 'firebase/firestore';
-import { storage } from '../../firebaseConfig';
+import { addDoc, collection, onSnapshot, doc, setDoc} from 'firebase/firestore';
+import { db, storage, auth } from '../../firebaseConfig';
+import firebase from 'firebase/compat/app';
+import { KeyboardAvoidingView } from 'react-native';
+
 
 const PostScreen = () => {
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [title, setTitle] = useState(null);
+  const [desc, setDesc] = useState(null);
+  const [user, setUser] = useState(null);
+  const newPostRef = doc(collection(db, "posts"));
+  const [display, setDisplay] = useState(null);
+
+  useEffect( () => {
+    console.log("title is", title);
+    console.log("desc is", desc);
+    const currentUser = auth.currentUser;
+
+    if (currentUser) {
+      const userEmail = currentUser.email;
+      console.log('Current user email:', userEmail);
+      setUser(userEmail);
+    } else {
+      console.log('No user logged in');
+    }
+    console.log("display is ", display)
+  }, [title, desc, display])
+
 
   const pickImage = async () => {
     setLoading(true);
@@ -37,51 +63,99 @@ const PostScreen = () => {
    }
   };
 
-  const uploadImageAsync = async(uri) => {
-    const blob = await new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        resolve(xhr.response);
+  const handleSubmit = async() => {
+
+    try {
+      const url = await uploadMedia();
+
+      console.log(url);
+
+      console.log("at handlsubmit, display is", display);
+    
+      if (title && desc && title.length > 0 && desc.length > 0 && url) {
+        const date = new Date();
+        const newPost = {
+          imageURL: url,
+          title: title,
+          caption: desc,
+          date: date
+        }
+
+        console.log("reached")
+
+        try {
+          await setDoc(newPostRef, newPost);
+          console.log("posted")
+        } catch (error) {
+          console.error("issue with posting to firebase")
+        }
       }
-      xhr.onerror = function (e) {
-        console.log(e);
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
+    } catch (error) {
+      console.error("Issue with posting to Firebase:", error);
+    }
   }
 
-  //   async function uploadImage(uri, fileType) {
-  //     const response = await fetch(uri);
-  //     const blob = await response.blob();
+  const uploadMedia = async () => {
+    setUploading(true)
+    try {
+      const {uri} = await FileSystem.getInfoAsync(image)
+      console.log("REACHED HERE")
+      console.log(uri);
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+          reject(new TypeError("Network request failed"));
+        };
+        xhr.responseType = "blob";
+        xhr.open("GET", uri, true);
+        xhr.send(null);
+      });
+      console.log("here now")
+  
+      // const filename = image.substring(image.lastIndexOf("/") + 1);
+      const storageRef = ref(storage, `postImages/${user}/${new Date().getTime()}`)
+      const snapshot = await uploadBytes(storageRef, blob);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      await setDisplay(downloadURL)
+      
+      
+      console.log("DOWNLOAD URL IS" , downloadURL)
+      await console.log("HEREEE display IS" , display)
 
-  //     const storageRef  = 
-  //   }
+      return downloadURL;
 
-  //   try {
-  //     const storageRef = ref(storage, `postImages/image-${Date.now()})`);
-  //     const result = await(uploadBytes(storageRef, blob));
+      
+      // await ref.put(blob)
+      // setUploading(false)
+      // Alert.alert("photo uploaded!")
+      // setImage(null);
+  
+  
+  
+    } catch (error) {
+      console.log('error')
+      setUploading(false)
+    }
+  }
 
-  //     result.on("state_changed",
-  //       (snapshot) => {
-  //         const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-  //         console.log("progress is " + progress)
-  //       }
+  
 
-
-  //     )
-
-  //     blob.close();
-  //     return await getDownloadURL(storageRef);
-  //   } catch(error) {
-  //     alert(`Error: ${error}`)
-  //   }
-  // }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
+      {display ? (
+        <Image
+          source={{ uri: display }}
+          style={{ width: 200, height: 200, resizeMode: 'cover' }}
+        />
+      ) : (
+        <View> 
+          <Text> nothing yet! </Text>
+        </View>
+      )}
 
       {/* IMAGE PICKER COMPONENT */}
       {!image ? ( 
@@ -114,6 +188,7 @@ const PostScreen = () => {
         <TextInput 
           style = {styles.headerInput}
           placeholder='Give your post a title'
+          onChangeText={(title) => setTitle(title)}
         />
       </View>
 
@@ -121,19 +196,20 @@ const PostScreen = () => {
       <View style = {styles.captionContainer}>
         <TextInput 
           style = {styles.captionInput}
-          multiline={true} 
+          // multiline={true} 
           //  maybe convert to antd design
           placeholder='Give your post a caption'
+          onChangeText={(desc) => setDesc(desc)}
         />
       </View>
 
       <View style = {styles.postContainer}>
-        <TouchableOpacity style = {styles.postButton}>
+        <TouchableOpacity style = {styles.postButton} onPress={handleSubmit}> 
           <Text style = {styles.postText}> Post </Text>
         </TouchableOpacity>
       </View>
 
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -169,7 +245,8 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
     borderRadius: 20,
     height: 20,
-    color: 'white'
+    // color: 'white'
+    fontFamily: 'HelveticaNeue-Bold'
   },
   pickImage: {
     width: 200,
