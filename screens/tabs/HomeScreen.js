@@ -43,21 +43,6 @@ const TabNavigator = () => {
     );
 };
 
-const HomeTabs = () => {
-    const navigation = useNavigation();
-
-    return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
-                    <Icon name="menu" size={24} color="#000" />
-                </TouchableOpacity>
-            </View>
-            <TabNavigator />
-        </View>
-    );
-};
-
 const HomeScreen = () => {
     return (
         <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
