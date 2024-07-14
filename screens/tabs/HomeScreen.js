@@ -1,70 +1,66 @@
 import React from 'react';
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Image, FlatList } from 'react-native';
-import { auth } from '../../firebaseConfig';
-import { signOut } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/core';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import SCREENS from '../screens';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-const HomeTabs = () => {
-    const navigation = useNavigation();
+import BuyerPosts from './BuyerPosts';
+import SellerPosts from './SellerPosts';
+import SCREENS from '../screens.js';
 
-    return (
-        <View style={{ flex: 1 }}>
-            <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
-                    <Icon name="menu" size={24} color="#000" />
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+const Tab = createMaterialTopTabNavigator();
+const Drawer = createDrawerNavigator();
 
-    return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style = {{height : 30, borderRadius: 15, color: 'purple'}} onPress = {handleSignout}><Text> sign out </Text></TouchableOpacity>
-            <FlatList
-                data={products}
-                renderItem={renderProduct}
-                keyExtractor={item => item.id}
-                numColumns={2}
-                columnWrapperStyle={styles.columnWrapper}
-            />
-        </SafeAreaView>
-    );
+const CustomDrawerContent = ({ navigation }) => {
+  return (
+    <View style={{ flex: 1, paddingTop: 40 }}>
+      <TouchableOpacity onPress={() => navigation.navigate(SCREENS.MATCHES)}>
+        <Text style={styles.drawerItem}>Matches</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate(SCREENS.LIKED_POSTS)}>
+        <Text style={styles.drawerItem}>Liked Posts</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate(SCREENS.LOGIN)}>
+        <Text style={styles.drawerItem}>Sign out</Text>
+      </TouchableOpacity>
+    </View>
+  );
 };
 
 const TabNavigator = () => {
-    return (
-        <Tab.Navigator>
-            <Tab.Screen name="Buyers" component={BuyerPosts} />
-            <Tab.Screen name="Sellers" component={SellerPosts} />
-        </Tab.Navigator>
-    );
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="Buyers" component={BuyerPosts} />
+      <Tab.Screen name="Sellers" component={SellerPosts} />
+    </Tab.Navigator>
+  );
 };
 
 const HomeScreen = () => {
-    return (
-        <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
-            <Drawer.Screen name="HomeTabs" component={HomeTabs} options={{ headerShown: false }} />
-        </Drawer.Navigator>
-    );
+  const navigation = useNavigation();
+
+  return (
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      <Drawer.Screen name="HomeTabs" component={TabNavigator} options={{
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
+            <Icon name="menu" size={24} color="#000" />
+          </TouchableOpacity>
+        ),
+      }} />
+    </Drawer.Navigator>
+  );
 };
 
-export default HomeScreen;
-
-
 const styles = StyleSheet.create({
-    menuButton: {
-        marginRight: 15,
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ddd',
-    },
+  menuButton: {
+    marginRight: 15,
+  },
+  drawerItem: {
+    fontSize: 18,
+    padding: 10,
+  },
 });
 
+export default HomeScreen;
