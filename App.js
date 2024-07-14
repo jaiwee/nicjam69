@@ -7,6 +7,8 @@ import HomeScreen from './screens/tabs/HomeScreen';
 import StackNavigation from './navigation/tabs';
 import DateScreen from './screens/tabs/DateScreen';
 import ProductDetailScreen from './screens/tabs/ProductDetailScreen'; 
+import SellerProfileScreen from './screens/search/SellerProfileScreen'; 
+
 
 const Stack = createNativeStackNavigator();
 

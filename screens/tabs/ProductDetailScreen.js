@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const ProductDetailScreen = ({ route }) => {
   const { product } = route.params;
   const [followed, setFollowed] = useState(false);
+  const navigation = useNavigation();
 
   const handleFollowPress = () => {
     setFollowed(!followed);
+  };
+
+  const handleProfilePress = () => {
+    navigation.navigate('SellerProfile', { sellerId: product.sellerId });
   };
 
   return (
@@ -15,7 +21,9 @@ const ProductDetailScreen = ({ route }) => {
       <Text style={styles.title}>{product.title}</Text>
       <Text style={styles.description}>{'Lorem ipsum dolor sit amet. Et suscipit distinctio non nihil autem sit neque quasi. Aut exercitationem officiis est rerum cupiditate aut dicta aliquid est soluta natus qui totam autem hic minus quas.'}</Text>
       <View style={styles.followContainer}>
-        <Image source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }} style={styles.profileImage} />
+        <TouchableOpacity onPress={handleProfilePress}>
+          <Image source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }} style={styles.profileImage} />
+        </TouchableOpacity>
         <TouchableOpacity onPress={handleFollowPress} style={[styles.followButton, followed ? styles.followed : null]}>
           <Text style={styles.followButtonText}>{followed ? 'Following' : 'Follow'}</Text>
         </TouchableOpacity>
