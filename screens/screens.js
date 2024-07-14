@@ -8,7 +8,7 @@ const SCREENS = {
     POST_DETAIL: 'PostDetailScreen',
     SELLERPROFILE: 'SellerProfile',
     LIKED_POSTS: 'LikedPosts', 
-    PRODUCT_DETAIL: 'ProductDetailScreen'
+    PRODUCT_DETAIL: 'ProductDetailScreen',
     SELLERPROFILE: 'SELLERPROFILE',
     SIGNUP: 'SIGNUP'
 }
