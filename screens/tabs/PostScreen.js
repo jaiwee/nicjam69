@@ -63,23 +63,25 @@ const PostScreen = () => {
    }
   };
 
-
-
   const handleSubmit = async() => {
 
     try {
-      await uploadMedia();
+      const url = await uploadMedia();
+
+      console.log(url);
 
       console.log("at handlsubmit, display is", display);
     
-      if (title && desc && title.length > 0 && desc.length > 0 && display) {
+      if (title && desc && title.length > 0 && desc.length > 0 && url) {
         const date = new Date();
         const newPost = {
-          imageURL: display,
+          imageURL: url,
           title: title,
           caption: desc,
           date: date
         }
+
+        console.log("reached")
 
         try {
           await setDoc(newPostRef, newPost);
@@ -91,7 +93,6 @@ const PostScreen = () => {
     } catch (error) {
       console.error("Issue with posting to Firebase:", error);
     }
-    
 
   }
 
@@ -124,6 +125,8 @@ const PostScreen = () => {
       
       console.log("DOWNLOAD URL IS" , downloadURL)
       await console.log("HEREEE display IS" , display)
+
+      return downloadURL;
 
       
 
