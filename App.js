@@ -6,7 +6,8 @@ import LoginScreen from './screens/auth/LoginScreen';
 import HomeScreen from './screens/tabs/HomeScreen';
 import StackNavigation from './navigation/tabs';
 import DateScreen from './screens/tabs/DateScreen';
-import ProductDetailScreen from './screens/tabs/ProductDetailScreen'; 
+import PostDetailScreen from './screens/tabs/PostDetailScreen'; 
+import LikedPostsScreen from './screens/tabs/LikedPostsScreen';
 import SellerProfileScreen from './screens/search/SellerProfileScreen'; 
 
 

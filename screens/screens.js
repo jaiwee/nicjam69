@@ -5,8 +5,10 @@ const SCREENS = {
     SEARCH: 'SEARCH',
     POST: 'POST',
     DATE: 'DATE',
-    PRODUCT_DETAIL: 'ProductDetailScreen',
-    SELLERPROFILE: 'SellerProfile'
+    POST_DETAIL: 'PostDetailScreen',
+    SELLERPROFILE: 'SellerProfile',
+    LIKED_POSTS: 'LikedPosts', 
+    PRODUCT_DETAIL: 'ProductDetailScreen'
 }
 
 export default SCREENS;

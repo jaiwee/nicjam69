@@ -9,48 +9,21 @@ import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/tabs/HomeScreen';
 import SearchScreen from '../screens/tabs/SearchScreen';
 import PostScreen from '../screens/tabs/PostScreen';
-import ProductDetailScreen from '../screens/tabs/ProductDetailScreen';
+import PostDetailScreen from '../screens/tabs/PostDetailScreen.js';
 import SellerProfileScreen from '../screens/search/SellerProfileScreen.js';
 import IMAGES from '../images/index.js';
 import DateScreen from '../screens/tabs/DateScreen.js';
+import LikedPostsScreen from '../screens/tabs/LikedPostsScreen.js';
+import ProductDetailScreen from '../screens/tabs/ProductDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const StackNavigation = () => {
+const HomeTabs = () => {
     return (
-        <Stack.Navigator initialRouteName={SCREENS.LOGIN}>
-            <Stack.Screen
-                name={SCREENS.LOGIN}
-                component={LoginScreen}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name={SCREENS.HOME}
-                component={TabNavigator}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name={SCREENS.PRODUCT_DETAIL}
-                component={ProductDetailScreen}
-                options={{ headerShown: true }}
-            />
-            <Stack.Screen
-                name={SCREENS.SELLERPROFILE}
-                component={SellerProfileScreen}
-                options={{ headerShown: true }}
-            />
-        </Stack.Navigator>
-    );
-};
-
-const TabNavigator = () => {
-    return (
-        <Tab.Navigator screenOptions={{
-            activeTintColor: '#ffffff',
-        }}>
+        <Tab.Navigator screenOptions={{ activeTintColor: '#ffffff' }}>
             <Tab.Screen
-                name={SCREENS.HOME}
+                name="Home"
                 component={HomeScreen}
                 options={{
                     tabBarLabel: 'Home',
@@ -61,7 +34,7 @@ const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name={SCREENS.SEARCH}
+                name="Search"
                 component={SearchScreen}
                 options={{
                     tabBarLabel: 'Search',
@@ -72,7 +45,7 @@ const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name={SCREENS.POST}
+                name="Post"
                 component={PostScreen}
                 options={{
                     tabBarLabel: 'Post',
@@ -83,7 +56,7 @@ const TabNavigator = () => {
                 }}
             />
             <Tab.Screen
-                name={SCREENS.DATE}
+                name="Date"
                 component={DateScreen}
                 options={{
                     title: 'Date',
@@ -102,6 +75,43 @@ const TabNavigator = () => {
                 }}
             />
         </Tab.Navigator>
+    );
+};
+
+const StackNavigation = () => {
+    return (
+        <Stack.Navigator initialRouteName={SCREENS.LOGIN}>
+            <Stack.Screen
+                name={SCREENS.LOGIN}
+                component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.HOME}
+                component={HomeTabs}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.POST_DETAIL}
+                component={PostDetailScreen}
+                options={{ headerShown: true }}
+            />
+            <Stack.Screen
+                name="ProductDetail"
+                component={ProductDetailScreen}
+                options={{ headerShown: true }}
+            />
+            <Stack.Screen
+                name={SCREENS.SELLERPROFILE}
+                component={SellerProfileScreen}
+                options={{ headerShown: true }}
+            />
+            <Stack.Screen
+                name="LikedPosts"
+                component={LikedPostsScreen}
+                options={{ headerShown: true }}
+            />
+        </Stack.Navigator>
     );
 };
 

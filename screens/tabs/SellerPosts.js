@@ -15,7 +15,7 @@ const BuyerPosts = ({ navigation }) => {
 
   const handleProductPress = (product) => {
     console.log('Product pressed:', product);
-    navigation.navigate('ProductDetail', { product });
+    navigation.navigate('PostDetailScreen', { product });
   };
 
   const handleLikePress = (id) => {
