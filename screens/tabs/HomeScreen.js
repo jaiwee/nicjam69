@@ -1,26 +1,36 @@
 import React from 'react';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { View, TouchableOpacity, StyleSheet, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image, FlatList } from 'react-native';
+import { auth } from '../../firebaseConfig';
+import { signOut } from 'firebase/auth';
+import { useNavigation } from '@react-navigation/core';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SCREENS from '../screens';
 
-import BuyerPosts from './BuyerPosts';
-import SellerPosts from './SellerPosts';
-import SCREENS from '../screens.js';
+const HomeTabs = () => {
+    const navigation = useNavigation();
 
-const Tab = createMaterialTopTabNavigator();
-const Drawer = createDrawerNavigator();
-
-const CustomDrawerContent = ({ navigation }) => {
     return (
-        <View style={{ flex: 1, paddingTop: 80, paddingHorizontal: 20 }}>
-            <Button title="Matches" onPress={() => navigation.navigate('Matches')} />
-            <View style={{ height: 20 }} />
-            <Button title="Liked Posts" onPress={() => navigation.navigate(SCREENS.LIKED_POSTS)} />
-            <View style={{ height: 20 }} />
-            <Button title="Sign out" onPress={() => navigation.navigate(SCREENS.LOGIN)} />
+        <View style={{ flex: 1 }}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.menuButton}>
+                    <Icon name="menu" size={24} color="#000" />
+                </TouchableOpacity>
+            </View>
         </View>
+    );
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <TouchableOpacity style = {{height : 30, borderRadius: 15, color: 'purple'}} onPress = {handleSignout}><Text> sign out </Text></TouchableOpacity>
+            <FlatList
+                data={products}
+                renderItem={renderProduct}
+                keyExtractor={item => item.id}
+                numColumns={2}
+                columnWrapperStyle={styles.columnWrapper}
+            />
+        </SafeAreaView>
     );
 };
 
@@ -56,6 +66,9 @@ const HomeScreen = () => {
     );
 };
 
+export default HomeScreen;
+
+
 const styles = StyleSheet.create({
     menuButton: {
         marginRight: 15,
@@ -70,4 +83,3 @@ const styles = StyleSheet.create({
     },
 });
 
-export default HomeScreen;
