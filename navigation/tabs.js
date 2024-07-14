@@ -15,13 +15,50 @@ import IMAGES from '../images/index.js';
 import DateScreen from '../screens/tabs/DateScreen.js';
 import LikedPostsScreen from '../screens/tabs/LikedPostsScreen.js';
 import ProductDetailScreen from '../screens/tabs/ProductDetailScreen';
+import SellerProfileScreen from '../screens/search/SellerProfileScreen.js';
+import SignUpScreen from '../screens/auth/SignUpScreen.js';
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeTabs = () => {
     return (
-        <Tab.Navigator screenOptions={{ activeTintColor: '#ffffff' }}>
+        <Stack.Navigator initialRouteName={SCREENS.LOGIN}>
+            <Stack.Screen
+                name={SCREENS.LOGIN}
+                component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.SIGNUP}
+                component={SignUpScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.HOME}
+                component={TabNavigator}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name={SCREENS.PRODUCT_DETAIL}
+                component={ProductDetailScreen}
+                options={{ headerShown: true }}
+            />
+            <Stack.Screen
+                name={SCREENS.SELLERPROFILE}
+                component={SellerProfileScreen}
+                options={{headerShown: true}}
+            />
+        </Stack.Navigator>
+    );
+};
+
+const TabNavigator = () => {
+    return (
+        <Tab.Navigator screenOptions={{
+            activeTintColor: '#ffffff',
+        }} >
             <Tab.Screen
                 name="Home"
                 component={HomeScreen}

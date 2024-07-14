@@ -9,6 +9,8 @@ const SCREENS = {
     SELLERPROFILE: 'SellerProfile',
     LIKED_POSTS: 'LikedPosts', 
     PRODUCT_DETAIL: 'ProductDetailScreen'
+    SELLERPROFILE: 'SELLERPROFILE',
+    SIGNUP: 'SIGNUP'
 }
 
 export default SCREENS;
