@@ -5,6 +5,11 @@ import { db } from '../firebaseConfig';
 import { useNavigation } from '@react-navigation/native';
 import SCREENS from '../screens/screens';
 import { Dropdown } from 'react-native-searchable-dropdown-kj'
+import Icon from '@expo/vector-icons/FontAwesome5'
+import Ionicons from '@expo/vector-icons/Ionicons.js'
+import FontAwesome from '@expo/vector-icons/FontAwesome.js'
+import EvilIcons from '@expo/vector-icons/EvilIcons.js'
+import { COLORS } from '../constants';
 
 const SearchComponent = ({}) => {
 
@@ -56,9 +61,7 @@ const SearchComponent = ({}) => {
           inputSearchStyle={styles.inputSearchStyle}
           renderRightIcon = {() => (
             <View>
-                <Text>
-                    hello
-                </Text>
+                <Ionicons name="search" size={24} color = {'gray'}/>
             </View>
           )}
           iconStyle={styles.iconStyle}
@@ -73,8 +76,8 @@ const SearchComponent = ({}) => {
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
           onChange={item => {
-            handleDropDownItemPress(item);
             setValue(item.value);
+            handleDropDownItemPress(item);
             setIsFocus(false);
           }}
           renderItem={renderItem}
@@ -85,16 +88,20 @@ const SearchComponent = ({}) => {
 
   const styles = StyleSheet.create({
     container: {
-      paddingVertical: 10,
-      paddingHorizontal: 16,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
+    //   borderWidth: 1,
+      borderRadius: 5,
+      marginHorizontal: 5,
+      marginTop: 10
     },
     dropdown: {
       height: 50,
       borderColor: 'gray',
-      borderRadius: 8,
+      borderRadius: 5,
       paddingHorizontal: 8,
-      borderBottomWidth: 0.5,
-      backgroundColor: "#F1F3FA"
+    //   borderWidth: 1,
+      backgroundColor: '#e8e8e8'
     },
     icon: {
       marginRight: 5,

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     happeningCard: {
         width: 350,
-        height: 160,
+        height: 300,
         borderRadius: 10,
         marginRight: 20
     },
