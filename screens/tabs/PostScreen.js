@@ -93,7 +93,6 @@ const PostScreen = () => {
     } catch (error) {
       console.error("Issue with posting to Firebase:", error);
     }
-
   }
 
   const uploadMedia = async () => {
@@ -127,8 +126,6 @@ const PostScreen = () => {
       await console.log("HEREEE display IS" , display)
 
       return downloadURL;
-
-      
 
       
       // await ref.put(blob)
