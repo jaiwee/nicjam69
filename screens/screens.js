@@ -10,7 +10,8 @@ const SCREENS = {
     LIKED_POSTS: 'LikedPosts', 
     PRODUCT_DETAIL: 'ProductDetailScreen',
     SELLERPROFILE: 'SELLERPROFILE',
-    SIGNUP: 'SIGNUP'
+    SIGNUP: 'SIGNUP',
+    REVIEW: 'REVIEW'
 }
 
 export default SCREENS;
