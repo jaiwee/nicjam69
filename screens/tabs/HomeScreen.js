@@ -24,6 +24,9 @@ const CustomDrawerContent = ({ navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate(SCREENS.LOGIN)}>
         <Text style={styles.drawerItem}>Sign out</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate(SCREENS.REVIEW)}>
+        <Text style={styles.drawerItem}>Leave A Review</Text>
+      </TouchableOpacity>
     </View>
   );
 };

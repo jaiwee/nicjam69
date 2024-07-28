@@ -16,6 +16,7 @@ import DateScreen from '../screens/tabs/DateScreen.js';
 import LikedPostsScreen from '../screens/tabs/LikedPostsScreen.js';
 import ProductDetailScreen from '../screens/tabs/ProductDetailScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen.js';
+import ReviewScreen from '../screens/tabs/ReviewScreen.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -115,6 +116,11 @@ const StackNavigation = () => {
             <Stack.Screen
                 name={SCREENS.SIGNUP}
                 component={SignUpScreen}
+            />
+
+            <Stack.Screen
+                name={SCREENS.REVIEW}
+                component={ReviewScreen}
                 options={{ headerShown: true }}
             />
         </Stack.Navigator>
