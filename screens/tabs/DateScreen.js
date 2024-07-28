@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text, Image, TouchableOpacity, Modal, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, Text, Image, TouchableOpacity, Modal, FlatList, Dimensions } from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebaseConfig'; // Adjust the import path as needed
 import SCREENS from '../screens';
 
-const cards = [
-  { id: 1, name: 'Handmade beaded necklace', image: 'https://media.karousell.com/media/photos/products/2023/10/27/handmade_beaded_necklace_brace_1698370420_d02b5ba7_progressive.jpg', description: 'User 1 description' },
-  { id: 2, name: 'Vintage bag', image: 'https://media.karousell.com/media/photos/products/2023/3/1/y2k_vintage_shoulder_bag_1677650889_6045c786_progressive.jpg', description: 'User 2 description' },
-  { id: 3, name: 'Crochet crop top', image: 'https://media.karousell.com/media/photos/products/2021/6/21/crochet_toga_top_1624243146_86b84ce9_progressive.jpg', description: 'User 3 description' },
-];
+const { width, height } = Dimensions.get('window');
 
 const locations = ['National University of Singapore', 'Singapore Management University', 'Nanyang Technological University'];
 
 const DateScreen = () => {
-  const [swipedAllCards, setSwipedAllCards] = useState(false);
+  const [products, setProducts] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
   const [locationModalVisible, setLocationModalVisible] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState('National University of Singapore');
   const navigation = useNavigation();
 
-  const handleSwipedAll = () => {
-    console.log('All cards swiped');
-    setSwipedAllCards(true);
-  };
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, 'products'), (snapshot) => {
+      const fetchedProducts = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProducts(fetchedProducts);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleSwipedRight = (cardIndex) => {
-    setLikedPosts([...likedPosts, cards[cardIndex]]);
+    const likedProduct = products[cardIndex];
+    setLikedPosts((prevLikedPosts) => [...prevLikedPosts, likedProduct]);
   };
 
-  const handleBuyNowPress = () => {
-    const product = cards[0];
+  const handleBuyNowPress = (product) => {
     navigation.navigate('ProductDetail', { product });
   };
 
@@ -46,83 +50,97 @@ const DateScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.HOME)} style={styles.backButton}>
-          <Icon name="arrow-back" size={24} color="#888" />
+        <TouchableOpacity onPress={() => navigation.navigate(SCREENS.HOME)} style={styles.iconButton}>
+          <Icon name="arrow-back" size={24} color="#000" />
         </TouchableOpacity>
         <View style={styles.headerContent}>
           <Text style={styles.headerTitle}>Discover</Text>
           <TouchableOpacity onPress={() => setLocationModalVisible(true)}>
-            <Text style={styles.locationText}>Location: {selectedLocation}</Text>
+            <Text style={styles.locationText}>{selectedLocation}</Text>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={handleViewLikedPosts} style={styles.likeButton}>
-          <Icon name="heart-outline" size={24} color="#888" />
+        <TouchableOpacity onPress={handleViewLikedPosts} style={styles.iconButton}>
+          <Icon name="heart-outline" size={24} color="#000" />
         </TouchableOpacity>
       </View>
       <View style={styles.swiperContainer}>
-        <Swiper
-          cards={cards}
-          renderCard={(card) => (
-            <View style={styles.card}>
-              <Image source={{ uri: card.image }} style={styles.image} />
-              <Text style={styles.cardText}>{card.name}</Text>
-            </View>
-          )}
-          onSwipedAll={handleSwipedAll}
-          onSwipedRight={handleSwipedRight}
-          cardIndex={0}
-          backgroundColor="#fff"
-          stackSize={3}
-          infinite
-          containerStyle={styles.swiper}
-          cardStyle={styles.cardContainer}
-          overlayLabels={{
-            left: {
-              title: 'NOPE',
-              style: {
-                label: {
-                  backgroundColor: 'red',
-                  borderColor: 'red',
-                  color: 'white',
-                  borderWidth: 1,
-                  fontSize: 24,
-                  padding: 10,
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-end',
-                  justifyContent: 'flex-start',
-                  marginTop: 20,
-                  marginLeft: -20,
-                },
-              },
-            },
-            right: {
-              title: 'LIKE',
-              style: {
-                label: {
-                  backgroundColor: 'green',
-                  borderColor: 'green',
-                  color: 'white',
-                  borderWidth: 1,
-                  fontSize: 24,
-                  padding: 10,
-                },
-                wrapper: {
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  justifyContent: 'flex-start',
-                  marginTop: 20,
-                  marginLeft: 20,
+        {products.length > 0 ? (
+          <Swiper
+            cards={products}
+            renderCard={(product) => (
+              <View style={styles.card}>
+                {product.imageURL ? (
+                  <Image source={{ uri: product.imageURL }} style={styles.image} />
+                ) : (
+                  <View style={styles.noImage}>
+                    <Text>No Image Available</Text>
+                  </View>
+                )}
+                <View style={styles.cardTextContainer}>
+                  <Text style={styles.cardTitle}>{product.productName}</Text>
+                  <Text style={styles.cardDescription}>{product.productDesc}</Text>
+                  <Text style={styles.cardPrice}>${product.price}</Text>
+                  <Text style={styles.cardSeller}>{product.sellerName}</Text>
+                </View>
+                <TouchableOpacity style={styles.buyButton} onPress={() => handleBuyNowPress(product)}>
+                  <Text style={styles.buyButtonText}>Buy Now</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            onSwipedRight={handleSwipedRight}
+            cardIndex={0}
+            backgroundColor="#fff"
+            stackSize={3}
+            infinite
+            containerStyle={styles.swiper}
+            cardStyle={styles.cardContainer}
+            overlayLabels={{
+              left: {
+                title: 'NOPE',
+                style: {
+                  label: {
+                    backgroundColor: 'red',
+                    borderColor: 'red',
+                    color: 'white',
+                    borderWidth: 1,
+                    fontSize: 24,
+                    padding: 10,
+                  },
+                  wrapper: {
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                    justifyContent: 'flex-start',
+                    marginTop: 20,
+                    marginLeft: -20,
+                  },
                 },
               },
-            },
-          }}
-        />
+              right: {
+                title: 'LIKE',
+                style: {
+                  label: {
+                    backgroundColor: 'green',
+                    borderColor: 'green',
+                    color: 'white',
+                    borderWidth: 1,
+                    fontSize: 24,
+                    padding: 10,
+                  },
+                  wrapper: {
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    justifyContent: 'flex-start',
+                    marginTop: 20,
+                    marginLeft: 20,
+                  },
+                },
+              },
+            }}
+          />
+        ) : (
+          <Text>Loading...</Text>
+        )}
       </View>
-      <TouchableOpacity style={styles.buttonContainer} onPress={handleBuyNowPress}>
-        <Text style={styles.buttonText}>Buy Now</Text>
-      </TouchableOpacity>
       <Modal visible={locationModalVisible} transparent animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -149,7 +167,7 @@ const DateScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f8f8f8',
   },
   header: {
     width: '100%',
@@ -160,8 +178,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
     justifyContent: 'space-between',
+    backgroundColor: '#fff',
   },
-  backButton: {
+  iconButton: {
     padding: 10,
   },
   headerContent: {
@@ -171,24 +190,19 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#333',
   },
   locationText: {
     fontSize: 14,
-    color: '#888',
-  },
-  likeButton: {
-    padding: 10,
-  },
-  likeButtonText: {
-    fontSize: 24,
-    color: '#888',
+    color: '#007AFF',
+    marginTop: 4,
   },
   swiperContainer: {
     flex: 1,
     width: '100%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: 10, // Adjust the padding to ensure swiper starts below the header
+    paddingTop: 10,
   },
   swiper: {
     flex: 1,
@@ -198,40 +212,68 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    width: 300,
-    height: 400,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    justifyContent: 'center',
+    width: width * 0.85,
+    height: height * 0.4, // Adjust the height to fit better
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: 'white',
     overflow: 'hidden',
-    marginBottom: 20,
   },
   image: {
     width: '100%',
-    height: '80%',
+    height: '60%', // Adjust the image height to fit the card better
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
   },
-  cardText: {
-    textAlign: 'center',
-    fontSize: 18, // Adjust the font size for better visibility
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
-  buttonContainer: {
-    backgroundColor: '#F1F3FA',
-    padding: 15,
-    borderRadius: 5,
-    width: '80%',
-    alignItems: 'center',
+  noImage: {
+    width: '100%',
+    height: '60%',
     justifyContent: 'center',
-    marginVertical: 20,
-    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
   },
-  buttonText: {
-    color: '#000000',
+  cardTextContainer: {
+    padding: 10,
+    alignItems: 'center',
+  },
+  cardTitle: {
     fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  cardDescription: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 4,
+  },
+  cardPrice: {
+    fontSize: 16,
+    color: '#000',
+    marginTop: 4,
+  },
+  cardSeller: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 4,
+  },
+  buyButton: {
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  buyButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   modalContainer: {
     flex: 1,
@@ -255,16 +297,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
     textAlign: 'center',
+    color: '#333',
   },
   closeButton: {
     marginTop: 20,
     padding: 10,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#007AFF',
     borderRadius: 5,
   },
   closeButtonText: {
     fontSize: 16,
-    color: '#000',
+    color: '#fff',
   },
 });
 

@@ -5,7 +5,7 @@ const SCREENS = {
     SEARCH: 'SEARCH',
     POST: 'POST',
     DATE: 'DATE',
-    POST_DETAIL: 'PostDetailScreen',
+    POST_DETAIL: 'PostDetail',
     SELLERPROFILE: 'SellerProfile',
     LIKED_POSTS: 'LikedPosts', 
     PRODUCT_DETAIL: 'ProductDetailScreen',

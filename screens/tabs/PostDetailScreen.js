@@ -1,84 +1,94 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-const ProductDetailScreen = ({ route }) => {
-  const { product } = route.params;
-  const [followed, setFollowed] = useState(false);
+const PostDetailScreen = () => {
   const navigation = useNavigation();
-
-  const handleFollowPress = () => {
-    setFollowed(!followed);
-  };
-
-  const handleProfilePress = () => {
-    navigation.navigate('SellerProfile', { sellerId: product.sellerId });
-  };
+  const route = useRoute();
+  const { post } = route.params;
 
   return (
     <View style={styles.container}>
-      <Image source={{ uri: product.uri }} style={styles.image} />
-      <Text style={styles.title}>{product.title}</Text>
-      <Text style={styles.description}>{'Lorem ipsum dolor sit amet. Et suscipit distinctio non nihil autem sit neque quasi. Aut exercitationem officiis est rerum cupiditate aut dicta aliquid est soluta natus qui totam autem hic minus quas.'}</Text>
-      <View style={styles.followContainer}>
-        <TouchableOpacity onPress={handleProfilePress}>
-          <Image source={{ uri: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png' }} style={styles.profileImage} />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleFollowPress} style={[styles.followButton, followed ? styles.followed : null]}>
-          <Text style={styles.followButtonText}>{followed ? 'Following' : 'Follow'}</Text>
+        <TouchableOpacity style={styles.followButton}>
+          <Text style={styles.followButtonText}>Follow</Text>
         </TouchableOpacity>
+      </View>
+      <Image source={{ uri: post.imageURL }} style={styles.image} />
+      <View style={styles.infoContainer}>
+        <View style={styles.profileContainer}>
+          <Image source={{ uri: post.profilePicture || 'https://via.placeholder.com/50' }} style={styles.profileImage} />
+          <Text style={styles.username}>{post.username}</Text>
+        </View>
+        <Text style={styles.title}>{post.title}</Text>
+        <Text style={styles.caption}>{post.caption}</Text>
       </View>
     </View>
   );
 };
 
-export default ProductDetailScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    padding: 16,
     backgroundColor: '#fff',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  backButton: {
+    padding: 8,
+  },
+  backButtonText: {
+    color: '#007AFF',
+    fontSize: 16,
+  },
+  followButton: {
+    padding: 8,
+    backgroundColor: '#007AFF',
+    borderRadius: 5,
+  },
+  followButtonText: {
+    color: '#fff',
+    fontSize: 16,
   },
   image: {
     width: '100%',
     height: 300,
-    borderRadius: 8,
-    marginBottom: 16,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  infoContainer: {
+    padding: 16,
   },
-  description: {
-    fontSize: 16,
-    marginTop: 8,
-    textAlign: 'center',
-  },
-  followContainer: {
+  profileContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
+    marginBottom: 8,
   },
   profileImage: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    marginRight: 10,
+    marginRight: 8,
   },
-  followButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    backgroundColor: '#1E90FF',
-  },
-  followed: {
-    backgroundColor: '#87CEEB',
-  },
-  followButtonText: {
-    color: '#fff',
+  username: {
     fontSize: 16,
+    color: '#333',
+  },
+  title: {
+    fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  caption: {
+    fontSize: 16,
+    color: '#333',
   },
 });
+
+export default PostDetailScreen;
