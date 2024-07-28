@@ -4,17 +4,19 @@ import { Image } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import EvilIcons from '@expo/vector-icons/EvilIcons';
 
-import SCREENS from '../screens/screens';
+import SCREENS from '../screens/screens.js';
 import LoginScreen from '../screens/auth/LoginScreen';
 import HomeScreen from '../screens/tabs/HomeScreen';
 import SearchScreen from '../screens/tabs/SearchScreen';
 import PostScreen from '../screens/tabs/PostScreen';
 import PostDetailScreen from '../screens/tabs/PostDetailScreen';
 import SellerProfileScreen from '../screens/search/SellerProfileScreen';
-import IMAGES from '../images';
+import IMAGES from '../images/index';
 import DateScreen from '../screens/tabs/DateScreen';
 import LikedPostsScreen from '../screens/tabs/LikedPostsScreen';
 import ProductDetailScreen from '../screens/tabs/ProductDetailScreen';
+import ReviewScreen from '../screens/tabs/ReviewScreen'; // Import the ReviewScreen component
+import SignUpScreen from '../screens/auth/SignUpScreen.js';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -107,11 +109,20 @@ const StackNavigation = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name={SCREENS.LIKED_POSTS}
+        name="LikedPosts"
         component={LikedPostsScreen}
         options={{ headerShown: true }}
       />
-
+      <Stack.Screen
+        name="Review" // Define a new route for the Review screen
+        component={ReviewScreen}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name={SCREENS.SIGNUP}
+        component={SignUpScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 };

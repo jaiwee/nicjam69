@@ -1,18 +1,10 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { auth } from '../../firebaseConfig'; // Adjust the path if necessary
 import SCREENS from '../screens';
+import { useNavigation } from '@react-navigation/native';
 
-const CustomDrawerContent = ({ navigation }) => {
-  const handleSignOut = async () => {
-    try {
-      await auth.signOut();
-      console.log('User signed out');
-      navigation.navigate(SCREENS.LOGIN);
-    } catch (error) {
-      console.error('Error signing out: ', error);
-    }
-  };
+const CustomDrawerContent = () => {
+  const navigation = useNavigation();
 
   return (
     <View style={{ flex: 1, paddingTop: 40 }}>
@@ -22,7 +14,10 @@ const CustomDrawerContent = ({ navigation }) => {
       <TouchableOpacity onPress={() => { console.log('Navigate to Liked Posts'); navigation.navigate(SCREENS.LIKED_POSTS); }}>
         <Text style={styles.drawerItem}>Liked Posts</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignOut}>
+      <TouchableOpacity onPress={() => { console.log('Navigate to Leave a Review'); navigation.navigate('Review'); }}>
+        <Text style={styles.drawerItem}>Leave a Review</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => { console.log('Navigate to Sign Out'); navigation.navigate(SCREENS.LOGIN); }}>
         <Text style={styles.drawerItem}>Sign out</Text>
       </TouchableOpacity>
     </View>
