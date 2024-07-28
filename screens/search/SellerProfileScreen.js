@@ -155,9 +155,6 @@ const SellerProfileScreen = ({route}) => {
 
     return (
     <ScrollView scrollEnabled = {true} showsVerticalScrollIndicator = {false} style = {styles.container}>
-        <TouchableOpacity onPress = {handleGetSellerProducts}> 
-         <Text>CLICK MEEEE</Text> 
-        </TouchableOpacity>
         <StatusBar barStyle = {'dark-content'}/>
         {profile && <ProfileHeaderComponent config = {profile}/>}
 

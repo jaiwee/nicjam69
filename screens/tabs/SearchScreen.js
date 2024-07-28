@@ -38,29 +38,6 @@ const SearchScreen = () => {
         <SearchComponent/>
         <HappeningComponent/>
         <TrendingComponent/>
-        <TouchableWithoutFeedback
-            onPress={() => {
-                console.log("pressed!");
-                navigation.navigate(SCREENS.SELLERPROFILE);
-        }}>
-            <View
-            style={{
-                height: 50,
-                backgroundColor: 'black',
-                marginTop: 20,
-                borderRadius: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}>
-            <Text
-                style={{
-                color: 'white',
-                fontSize: 16,
-                }}>
-                @xxxx
-            </Text>
-            </View>
-        </TouchableWithoutFeedback>
     </ScrollView>
     );
 };
