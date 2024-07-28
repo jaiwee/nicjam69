@@ -3,7 +3,8 @@ import { ImageBackground, KeyboardAvoidingView, StyleSheet, Text, TextInput, Tou
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { auth } from '../../firebaseConfig.js'
+import { auth, db } from '../../firebaseConfig.js'
+import { addDoc, collection, doc, setDoc } from "firebase/firestore"; 
 import { useNavigation } from '@react-navigation/native';
 import {Divider} from 'react-native-paper';
 import SCREENS from '../screens.js';
@@ -16,6 +17,7 @@ const SignUpScreen = () => {
     // const {navigation} = props;
 
     const [email, setEmail] = useState('')
+    const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [home, setHome] = useState('')
@@ -23,11 +25,24 @@ const SignUpScreen = () => {
     const navigation = useNavigation();
 
     const handleSignup = () => {
+        writeUserData(username, email);
+
         createUserWithEmailAndPassword(auth, email, password)
         .then(() => {
             navigation.navigate(SCREENS.LOGIN);
         })
         .catch(error => alert(error.message))
+    }
+
+    const writeUserData = (username, email) => {
+
+        const docRef = addDoc(collection(db, "users"), {
+            username: username,
+            email: email
+        });
+
+        console.log("Document written with ID: ", docRef.id);
+
     }
 
     // if (!user) {
@@ -51,6 +66,16 @@ const SignUpScreen = () => {
                         placeholder = "example@gmail.com"
                         value = {email}
                         onChangeText = {text => setEmail(text)}
+                        style = {styles.input} 
+                    />
+                </View>
+
+                <View style = {styles.inputContainer}>
+                    <Text> Username </Text>
+                    <TextInput
+                        placeholder = "epicslayer29"
+                        value = {username}
+                        onChangeText = {text => setUsername(text)}
                         style = {styles.input} 
                     />
                 </View>
@@ -90,11 +115,11 @@ const SignUpScreen = () => {
                         </Text>
                 </TouchableOpacity>
 
-                <View style = {{flex: 0.1, alignItems: 'center', flexDirection: 'row'}}>
+                {/* <View style = {{flex: 0.1, alignItems: 'center', flexDirection: 'row'}}>
                     <Divider style = {{borderWidth: 0.2, width: '30%'}}/>
                     <Text style = {{marginHorizontal: 10, fontFamily: 'Helvetica'}}> Or Register with</Text>
                     <Divider style = {{borderWidth: 0.2, width: '30%'}}/>
-                </View>
+                </View> */}
 
             </KeyboardAvoidingView>
         )
@@ -110,10 +135,11 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         // alignItems: 'center',
         backgroundColor: COLORS.BLUE,
-        rowGap: 20
+        rowGap: 20,
+        
     },
     headerContainer: {
-        flex: 0.1,
+        flex: 0.15,
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         flexDirection: 'row',
