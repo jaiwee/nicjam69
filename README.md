@@ -21,7 +21,9 @@ As university students with a strong appetite for material goods, particularly a
 For buyers, this system presents several challenges:
 
 *Advertisement Flooding*: Buyers are often overwhelmed with advertisements, facing an uncategorized and disorganised array of options.
+
 *Trust Issues*: The reliance on a system of mutual good faith can lead to scams and wasted resources.
+
 *Inconvenient Search*: Buyers must hunt for the items they want by combing through various channels, while sellers need to publicise their products on platforms scattered across the app.
 
 Our app aims to address these issues by providing a centralised marketplace, simplifying the transaction process, and increasing the discoverability of student-run businesses. By doing so, we not only support student entrepreneurs but also enhance the shopping experience for their peers.
